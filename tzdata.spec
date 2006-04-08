@@ -12,7 +12,6 @@ Source1:	%{name}%{version}.tar.gz
 Source2:	tzcode%{version}.tar.gz
 # Source2-md5:	cc4d27cfad7a8405fa198afbbd514204
 BuildRequires:	gawk
-BuildRequires:	glibc-devel
 BuildRequires:	perl-base
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -n -u)

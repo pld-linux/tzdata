@@ -1,16 +1,16 @@
 Summary:	Timezone data
 Summary(pl):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2005h
+Version:	2006c
 Release:	1
 License:	GPL
 Group:		Base
-Source0:	%{name}.tar.bz2
-# Source0-md5:	d20ffc3a857fd1714daadf8edacfb37a
-Source1:	%{name}%{version}.tar.gz
-# Source1-md5:	4c7aa406b55cce53b268ad4d274f33ba
-Source2:	tzcode%{version}.tar.gz
-# Source2-md5:	cc4d27cfad7a8405fa198afbbd514204
+Source0:	%{name}-base-0.tar.bz2
+# Source0-md5:	906a4c98cc5240f416524a256b039c42
+Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{version}.tar.gz
+# Source1-md5:	420d97a09c9750839afc2703f6b8276f
+Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{version}.tar.gz
+# Source2-md5:	2100d0b0c6f2ad320260290e5dc7e957
 BuildRequires:	gawk
 BuildRequires:	perl-base
 BuildArch:	noarch
@@ -31,13 +31,16 @@ tar xzf %{SOURCE1} -C %{name}%{version}
 mkdir tzcode%{version}
 tar xzf %{SOURCE2} -C tzcode%{version}
 
-%build
-sed -e 's|@objpfx@|'`pwd`'/obj/|' \
-    -e 's|@datadir@|%{_datadir}|' \
-    -e 's|@install_root@|$RPM_BUILD_ROOT|' \
-  Makeconfig.in > Makeconfig
-%{__make}
+sed -e "
+s|@objpfx@|`pwd`/obj/|
+s|@datadir@|%{_datadir}|
+s|@install_root@|$RPM_BUILD_ROOT|
+" Makeconfig.in > Makeconfig
+
 grep -v tz-art.htm tzcode%{version}/tz-link.htm > tzcode%{version}/tz-link.html
+
+%build
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT

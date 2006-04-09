@@ -14,7 +14,7 @@ Source2:	tzcode%{version}.tar.gz
 BuildRequires:	gawk
 BuildRequires:	perl-base
 BuildArch:	noarch
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -n -u)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This package contains data files with rules for various timezones
@@ -25,7 +25,7 @@ Ten pakiet zawiera pliki z danymi na temat regu³ stref czasowych na
 ca³ym ¶wiecie.
 
 %prep
-%setup -n tzdata
+%setup -q -n %{name}
 mkdir %{name}%{version}
 tar xzf %{SOURCE1} -C %{name}%{version}
 mkdir tzcode%{version}
@@ -34,19 +34,20 @@ tar xzf %{SOURCE2} -C tzcode%{version}
 %build
 sed -e 's|@objpfx@|'`pwd`'/obj/|' \
     -e 's|@datadir@|%{_datadir}|' \
-    -e 's|@install_root@|%{buildroot}|' \
+    -e 's|@install_root@|$RPM_BUILD_ROOT|' \
   Makeconfig.in > Makeconfig
 %{__make}
 grep -v tz-art.htm tzcode%{version}/tz-link.htm > tzcode%{version}/tz-link.html
 
 %install
+rm -rf $RPM_BUILD_ROOT
 %{__make} install
 echo ====================TESTING=========================
 %{__make} check
 echo ====================TESTING END=====================
 
 %clean
-rm -rf %{buildroot}
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)

@@ -24,6 +24,25 @@ around the world.
 Ten pakiet zawiera pliki z danymi na temat regu³ stref czasowych na
 ca³ym ¶wiecie.
 
+%package zoneinfo_right
+Summary:	Non-POSIX (real) time zones
+Summary(es):	Zonas de tiempo reales (no de POSIX)
+Summary(pl):	Nie-POSIX-owe (prawdziwe) strefy czasowe
+Obsoletes:	glibc-zoneinfo_right
+Group:		Libraries
+
+%description zoneinfo_right
+You don't want this. Details at:
+http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html
+
+%description zoneinfo_right -l es
+No lo necesita. Encontrará los detalles en:
+http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html
+
+%description zoneinfo_right -l pl
+Nie potrzebujesz tego. Szczegó³y pod:
+http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html
+
 %prep
 %setup -q -n %{name}
 mkdir %{name}%{version}
@@ -56,3 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc tzcode%{version}/README tzcode%{version}/Theory tzcode%{version}/tz-link.html
 %{_datadir}/zoneinfo
+%exclude %{_datadir}/zoneinfo/right
+
+%files zoneinfo_right
+%defattr(644,root,root,755)
+%{_datadir}/zoneinfo/right

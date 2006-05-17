@@ -2,7 +2,7 @@ Summary:	Timezone data
 Summary(pl):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2006g
-Release:	1
+Release:	2
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
@@ -67,6 +67,13 @@ rm -rf $RPM_BUILD_ROOT
 echo ====================TESTING=========================
 %{__make} check
 echo ====================TESTING END=====================
+
+# glibc.spec didn't keep it. so won't here either.
+rm -rf $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posix
+# behave more like glibc.spec
+ln -sf %{_sysconfdir}/localtime	$RPM_BUILD_ROOT%{_datadir}/zoneinfo/localtime
+ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime
+ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 
 %clean
 rm -rf $RPM_BUILD_ROOT

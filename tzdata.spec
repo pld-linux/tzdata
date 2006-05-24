@@ -28,8 +28,8 @@ ca³ym ¶wiecie.
 Summary:	Non-POSIX (real) time zones
 Summary(es):	Zonas de tiempo reales (no de POSIX)
 Summary(pl):	Nie-POSIX-owe (prawdziwe) strefy czasowe
-Obsoletes:	glibc-zoneinfo_right
 Group:		Libraries
+Obsoletes:	glibc-zoneinfo_right
 
 %description zoneinfo_right
 You don't want this. Details at:

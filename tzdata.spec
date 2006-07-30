@@ -65,7 +65,9 @@ grep -v tz-art.htm tzcode%{version}/tz-link.htm > tzcode%{version}/tz-link.html
 rm -rf $RPM_BUILD_ROOT
 %{__make} install
 echo ====================TESTING=========================
-%{__make} check
+%{__make} check \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags} %{rpmldflags}"
 echo ====================TESTING END=====================
 
 # glibc.spec didn't keep it. so won't here either.

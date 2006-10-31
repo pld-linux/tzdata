@@ -1,16 +1,16 @@
 Summary:	Timezone data
 Summary(pl):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2006g
-Release:	2
+Version:	2006n
+Release:	1
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{version}.tar.gz
-# Source1-md5:	fed13df17e2e386f4c31b0962d3ed356
+# Source1-md5:	dee8a703541c5d28a656efdac6a6d525
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{version}.tar.gz
-# Source2-md5:	4091e3f764a296b476bb77cf8eda01c7
+# Source2-md5:	8eacb8dab98dbb95c4085b6c77ba3083
 BuildRequires:	gawk
 BuildRequires:	perl-base
 BuildArch:	noarch
@@ -46,9 +46,9 @@ http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html
 %prep
 %setup -q -n %{name}
 mkdir %{name}%{version}
-tar xzf %{SOURCE1} -C %{name}%{version}
+%{__tar} xzf %{SOURCE1} -C %{name}%{version}
 mkdir tzcode%{version}
-tar xzf %{SOURCE2} -C tzcode%{version}
+%{__tar} xzf %{SOURCE2} -C tzcode%{version}
 
 sed -e "
 s|@objpfx@|`pwd`/obj/|
@@ -64,6 +64,7 @@ grep -v tz-art.htm tzcode%{version}/tz-link.htm > tzcode%{version}/tz-link.html
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install
+
 echo ====================TESTING=========================
 %{__make} check \
 	CC="%{__cc}" \

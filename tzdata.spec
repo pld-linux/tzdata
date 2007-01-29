@@ -1,16 +1,16 @@
 Summary:	Timezone data
 Summary(pl):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2006p
+Version:	2007a
 Release:	1
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{version}.tar.gz
-# Source1-md5:	cbdf758536710f444de1467fdc19594f
+# Source1-md5:	5ba3a8c3581a0ef962179fba1328f3cb
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{version}.tar.gz
-# Source2-md5:	a1665dde14d48353563cd98cc196df4a
+# Source2-md5:	9162d8d447eec31f60d0602edd17e123
 BuildRequires:	gawk
 BuildRequires:	perl-base
 BuildArch:	noarch
@@ -33,15 +33,15 @@ Obsoletes:	glibc-zoneinfo_right
 
 %description zoneinfo_right
 You don't want this. Details at:
-http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html
+<http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
 %description zoneinfo_right -l es
 No lo necesita. Encontrará los detalles en:
-http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html
+<http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
 %description zoneinfo_right -l pl
 Nie potrzebujesz tego. Szczegó³y pod:
-http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html
+<http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
 %prep
 %setup -q -n %{name}

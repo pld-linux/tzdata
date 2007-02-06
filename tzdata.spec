@@ -2,7 +2,7 @@ Summary:	Timezone data
 Summary(pl):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2007a
-Release:	1
+Release:	2
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
@@ -63,6 +63,8 @@ grep -v tz-art.htm tzcode%{version}/tz-link.htm > tzcode%{version}/tz-link.html
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/
+
 %{__make} install
 
 echo ====================TESTING=========================
@@ -78,12 +80,16 @@ ln -sf %{_sysconfdir}/localtime	$RPM_BUILD_ROOT%{_datadir}/zoneinfo/localtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 
+> $RPM_BUILD_ROOT/etc/localtime
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
 %doc tzcode%{version}/README tzcode%{version}/Theory tzcode%{version}/tz-link.html
+%ghost /etc/localtime
+
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right
 

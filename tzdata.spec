@@ -1,5 +1,5 @@
 Summary:	Timezone data
-Summary(pl.UTF-8):   Dane o strefach czasowych
+Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2007a
 Release:	2
@@ -26,8 +26,8 @@ całym świecie.
 
 %package zoneinfo_right
 Summary:	Non-POSIX (real) time zones
-Summary(es.UTF-8):   Zonas de tiempo reales (no de POSIX)
-Summary(pl.UTF-8):   Nie-POSIX-owe (prawdziwe) strefy czasowe
+Summary(es.UTF-8):	Zonas de tiempo reales (no de POSIX)
+Summary(pl.UTF-8):	Nie-POSIX-owe (prawdziwe) strefy czasowe
 Group:		Libraries
 Obsoletes:	glibc-zoneinfo_right
 

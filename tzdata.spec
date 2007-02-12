@@ -1,5 +1,5 @@
 Summary:	Timezone data
-Summary(pl):	Dane o strefach czasowych
+Summary(pl.UTF-8):   Dane o strefach czasowych
 Name:		tzdata
 Version:	2007a
 Release:	2
@@ -20,14 +20,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 This package contains data files with rules for various timezones
 around the world.
 
-%description -l pl
-Ten pakiet zawiera pliki z danymi na temat regu≥ stref czasowych na
-ca≥ym ∂wiecie.
+%description -l pl.UTF-8
+Ten pakiet zawiera pliki z danymi na temat regu≈Ç stref czasowych na
+ca≈Çym ≈õwiecie.
 
 %package zoneinfo_right
 Summary:	Non-POSIX (real) time zones
-Summary(es):	Zonas de tiempo reales (no de POSIX)
-Summary(pl):	Nie-POSIX-owe (prawdziwe) strefy czasowe
+Summary(es.UTF-8):   Zonas de tiempo reales (no de POSIX)
+Summary(pl.UTF-8):   Nie-POSIX-owe (prawdziwe) strefy czasowe
 Group:		Libraries
 Obsoletes:	glibc-zoneinfo_right
 
@@ -35,12 +35,12 @@ Obsoletes:	glibc-zoneinfo_right
 You don't want this. Details at:
 <http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
-%description zoneinfo_right -l es
-No lo necesita. Encontrar· los detalles en:
+%description zoneinfo_right -l es.UTF-8
+No lo necesita. Encontrar√° los detalles en:
 <http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
-%description zoneinfo_right -l pl
-Nie potrzebujesz tego. SzczegÛ≥y pod:
+%description zoneinfo_right -l pl.UTF-8
+Nie potrzebujesz tego. Szczeg√≥≈Çy pod:
 <http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
 %prep

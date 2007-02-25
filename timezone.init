@@ -48,9 +48,12 @@ start() {
 
 stop() {
 	if [ -f /var/lock/subsys/timezone ]; then
-		run_cmd "Unsetting time zone information" rm -f /etc/localtime
 		rm -f /var/lock/subsys/timezone
 	fi
+}
+
+disable() {
+	run_cmd "Unsetting time zone information" rm -f /etc/localtime
 }
 
 RETVAL=0
@@ -66,8 +69,11 @@ case "$1" in
 	stop
 	start
 	;;
+  disable)
+	disable
+	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload}"
+	msg_usage "$0 {start|stop|restart|reload|disable}"
 	exit 3
 esac
 

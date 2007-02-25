@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # timezone	Set time zone information.
-# chkconfig:	2345 10 70
+# chkconfig:	2345 10 90
 # description:	This script is setting time zone information for your machine.
 # Author:	Pawel Wilk <siefca@pld-linux.org>
 #

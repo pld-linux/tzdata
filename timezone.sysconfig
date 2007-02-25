@@ -1,16 +1,13 @@
 # Time zone information.
 
-# Directory containing
-# zone information files.
+# Directory containing zone information files.
 ZONE_INFO_DIR="/usr/share/zoneinfo"
 
-# Scheme you would like
-# to use in your system.
+# Scheme you would like to use in your system.
 ZONE_INFO_SCHEME="posix"
 
 # Area (sometimes may be empty)
 ZONE_INFO_AREA="Europe"
 
-# Name of the time zone
-# for your system.
+# Name of the time zone for your system.
 TIME_ZONE="Warsaw"

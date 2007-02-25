@@ -7,10 +7,11 @@
 #
 # $Id$
 
+[ -f /etc/sysconfig/timezone ] || exit 0
+
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-[ ! -f /etc/sysconfig/timezone ] && exit 0
 . /etc/sysconfig/timezone
 
 ZONE_FILE="$ZONE_INFO_DIR"
@@ -25,7 +26,7 @@ fi
 
 ZONE_FILE="$ZONE_FILE/$TIME_ZONE"
 
-[ -L /etc/localtime -a "`resolvesymlink /etc/localtime`" = "$ZONE_FILE" ] && exit 0
+[ -L /etc/localtime ] && [ "$(resolvesymlink /etc/localtime)" = "$ZONE_FILE" ] && exit 0
 
 start() {
 	if [ ! -f /var/lock/subsys/timezone ]; then

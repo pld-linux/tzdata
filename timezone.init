@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+# timezone	Set time zone information.
+# chkconfig:	2345 10 70
+# description:	This script is setting time zone information for your machine.
+# Author:	Pawel Wilk <siefca@pld-linux.org>
+#
+# $Id$
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+[ ! -f /etc/sysconfig/timezone ] && exit 0
+. /etc/sysconfig/timezone
+
+ZONE_FILE="$ZONE_INFO_DIR"
+
+if [ -n "$ZONE_INFO_SCHEME" -a "$ZONE_INFO_SCHEME" != "posix" ]; then
+	ZONE_FILE="$ZONE_FILE/$ZONE_INFO_SCHEME"
+fi
+
+if [ -n "$ZONE_INFO_AREA" ]; then
+	ZONE_FILE="$ZONE_FILE/$ZONE_INFO_AREA"
+fi
+
+ZONE_FILE="$ZONE_FILE/$TIME_ZONE"
+
+[ -L /etc/localtime -a "`resolvesymlink /etc/localtime`" = "$ZONE_FILE" ] && exit 0
+
+start() {
+	if [ ! -f /var/lock/subsys/timezone ]; then
+		rm -f /etc/localtime
+		if [ -f "$ZONE_FILE" ]; then
+			if [ -n "$ZONE_INFO_AREA" ]; then
+				MESSAGE="`nls 'Setting time zone information (%s, %s)' "$ZONE_INFO_AREA" "$TIME_ZONE"`"
+			else
+				MESSAGE="`nls 'Setting time zone information (%s)' "$TIME_ZONE"`"
+			fi
+			run_cmd "$MESSAGE" cp -af $ZONE_FILE /etc/localtime
+			RETVAL=$?
+		fi
+
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/timezone
+	fi
+}
+
+stop() {
+	if [ -f /var/lock/subsys/timezone ]; then
+		run_cmd "Unsetting time zone information" rm -f /etc/localtime
+		rm -f /var/lock/subsys/timezone
+	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+	stop
+	start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|reload}"
+	exit 3
+esac
+
+unset ZONE_FILE ZONE_INFO_DIR ZONE_INFO_SCHEME ZONE_INFO_AREA TIME_ZONE MESSAGE
+
+exit $RETVAL

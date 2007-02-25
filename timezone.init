@@ -29,8 +29,9 @@ ZONE_FILE="$ZONE_FILE/$TIME_ZONE"
 
 start() {
 	if [ ! -f /var/lock/subsys/timezone ]; then
-		rm -f /etc/localtime
 		if [ -f "$ZONE_FILE" ]; then
+			rm -f /etc/localtime
+
 			if [ -n "$ZONE_INFO_AREA" ]; then
 				MESSAGE="`nls 'Setting time zone information (%s, %s)' "$ZONE_INFO_AREA" "$TIME_ZONE"`"
 			else

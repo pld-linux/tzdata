@@ -1,16 +1,16 @@
 Summary:	Timezone data
 Summary(pl):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2007a
+Version:	2007b
 Release:	1
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{version}.tar.gz
-# Source1-md5:	5ba3a8c3581a0ef962179fba1328f3cb
+# Source1-md5:	2b624fbf9e819dcbd8bb0246ab05370c
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{version}.tar.gz
-# Source2-md5:	9162d8d447eec31f60d0602edd17e123
+# Source2-md5:	cdcf902ff81f5a4d787ef73390d1d7ca
 BuildRequires:	gawk
 BuildRequires:	perl-base
 BuildArch:	noarch

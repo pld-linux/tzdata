@@ -1,18 +1,23 @@
 Summary:	Timezone data
 Summary(pl):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2007b
+Version:	2007c
 Release:	1
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{version}.tar.gz
-# Source1-md5:	2b624fbf9e819dcbd8bb0246ab05370c
+# Source1-md5:	730d744ac691e950066f8b6bd17b02d0
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{version}.tar.gz
-# Source2-md5:	cdcf902ff81f5a4d787ef73390d1d7ca
+# Source2-md5:	e4913aa2edaf097b0627ead6b45fbedc
+Source3:	timezone.init
+Source4:	timezone.sysconfig
 BuildRequires:	gawk
 BuildRequires:	perl-base
+BuildRequires:	rpmbuild(macros) >= 1.228
+Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts >= 0.4.1.4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -63,13 +68,16 @@ grep -v tz-art.htm tzcode%{version}/tz-link.htm > tzcode%{version}/tz-link.html
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
+
 %{__make} install
 
-echo ====================TESTING=========================
+: ====================TESTING=========================
 %{__make} check \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} %{rpmldflags}"
-echo ====================TESTING END=====================
+: ====================TESTING END=====================
+
 
 # glibc.spec didn't keep it. so won't here either.
 rm -rf $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posix
@@ -78,12 +86,30 @@ ln -sf %{_sysconfdir}/localtime	$RPM_BUILD_ROOT%{_datadir}/zoneinfo/localtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 
+> $RPM_BUILD_ROOT/etc/localtime
+
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
+cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+/sbin/chkconfig --add timezone
+%service timezone restart
+
+%preun
+if [ "$1" = "0" ]; then
+	/sbin/chkconfig --del timezone
+fi
 
 %files
 %defattr(644,root,root,755)
 %doc tzcode%{version}/README tzcode%{version}/Theory tzcode%{version}/tz-link.html
+%ghost /etc/localtime
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
+%attr(754,root,root) /etc/rc.d/init.d/timezone
+
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right
 

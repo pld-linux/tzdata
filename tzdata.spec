@@ -2,7 +2,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2007c
-Release:	1
+Release:	2
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del timezone
 fi
+
+%triggerpostun -- rc-scripts < 0.4.1.4
+/sbin/chkconfig --add timezone
 
 %files
 %defattr(644,root,root,755)

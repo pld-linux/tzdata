@@ -2,7 +2,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2007g
-Release:	1
+Release:	2
 License:	GPL
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2

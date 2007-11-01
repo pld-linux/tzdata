@@ -1,5 +1,6 @@
 %define	_tzdata_ver	2007i
 %define	_tzcode_ver	2007h
+%bcond_without	tests
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -74,11 +75,13 @@ install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
 
 %{__make} install
 
+%if %{with tests}
 : ====================TESTING=========================
 %{__make} check \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} %{rpmldflags}"
 : ====================TESTING END=====================
+%endif
 
 
 # glibc.spec didn't keep it. so won't here either.

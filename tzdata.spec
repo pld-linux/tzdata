@@ -19,6 +19,7 @@ Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
 # Source2-md5:	e3d9b770e2a74bcddb6aac57f699c961
 Source3:	timezone.init
 Source4:	timezone.sysconfig
+Patch0:		%{name}-test-update.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	gawk
 BuildRequires:	perl-base
@@ -61,6 +62,7 @@ mkdir %{name}%{version}
 %{__tar} xzf %{SOURCE1} -C %{name}%{version}
 mkdir tzcode%{version}
 %{__tar} xzf %{SOURCE2} -C tzcode%{version}
+%patch0 -p1
 
 sed -e "
 s|@objpfx@|`pwd`/obj/|

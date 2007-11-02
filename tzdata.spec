@@ -1,21 +1,25 @@
-%define	_tzdata_ver	2007i
-%define	_tzcode_ver	2007h
-%bcond_without	tests
+#
+# Conditional build
+%bcond_without	tests			# make check
+#
+%define	tzdata_ver	2007i
+%define	tzcode_ver	2007h
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
-Version:	%{_tzdata_ver}
+Version:	%{tzdata_ver}
 Release:	1
-License:	GPL
+License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
-Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{_tzdata_ver}.tar.gz
+Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
 # Source1-md5:	bfe68c92dbe3726676063bdb14931b8b
-Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{_tzcode_ver}.tar.gz
+Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
 # Source2-md5:	e3d9b770e2a74bcddb6aac57f699c961
 Source3:	timezone.init
 Source4:	timezone.sysconfig
+URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	gawk
 BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.228

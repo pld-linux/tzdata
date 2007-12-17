@@ -72,8 +72,15 @@ case "$1" in
   disable)
 	disable
 	;;
+  status)
+	if [ -n "$ZONE_INFO_AREA" ]; then
+		nls 'Time zone configured to (%s, %s)' "$ZONE_INFO_AREA" "$TIME_ZONE"
+	else
+		nls 'Time zone configured to (%s)' "$TIME_ZONE"
+	fi
+	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|disable}"
+	msg_usage "$0 {start|stop|restart|reload|disable|status}"
 	exit 3
 esac
 

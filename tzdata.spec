@@ -2,21 +2,21 @@
 # Conditional build
 %bcond_without	tests			# make check
 #
-%define	tzdata_ver	2007j
-%define	tzcode_ver	2007j
+%define	tzdata_ver	2007k
+%define	tzcode_ver	2007k
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	2
+Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	cca2880ec98ad43a0a6ba0bc9beb81c1
+# Source1-md5:	595b3b197174fa0c2dd654c52969fb2a
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	02f71a69ea46f5217dc54b987720b820
+# Source2-md5:	1f1de10e168b78681756cc6411ea8145
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Patch0:		%{name}-test-update.patch

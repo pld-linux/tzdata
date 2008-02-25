@@ -8,7 +8,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	4
+Release:	5
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
@@ -98,8 +98,6 @@ ln -sf %{_sysconfdir}/localtime	$RPM_BUILD_ROOT%{_datadir}/zoneinfo/localtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 
-> $RPM_BUILD_ROOT/etc/localtime
-
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
 
@@ -121,7 +119,6 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc tzcode%{version}/README tzcode%{version}/Theory tzcode%{version}/tz-link.html
-%ghost /etc/localtime
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone
 

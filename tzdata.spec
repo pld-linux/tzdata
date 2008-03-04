@@ -113,6 +113,16 @@ rm -rf $RPM_BUILD_ROOT
 %preun
 if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del timezone
+
+	# save for postun
+	cp -f /etc/localtime /etc/localtime.rpmsave
+fi
+
+%postun
+if [ "$1" = "0" ]; then
+	if [ ! -f /etc/localtime -a -f /etc/localtime.rpmsave ]; then
+		mv -f /etc/localtime{.rpmsave,}
+	fi
 fi
 
 %triggerpostun -- rc-scripts < 0.4.1.4

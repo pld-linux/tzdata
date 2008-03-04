@@ -40,6 +40,7 @@ start() {
 			fi
 			run_cmd "$MESSAGE" cp -af $ZONE_FILE /etc/localtime
 			RETVAL=$?
+			restorecon /etc/localtime >/dev/null 2>&1
 		fi
 
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/timezone

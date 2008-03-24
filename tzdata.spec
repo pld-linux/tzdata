@@ -58,11 +58,11 @@ Nie potrzebujesz tego. Szczegóły pod:
 <http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
 %prep
-%setup -q -n %{name}
-mkdir %{name}%{version}
-%{__tar} xzf %{SOURCE1} -C %{name}%{version}
-mkdir tzcode%{version}
-%{__tar} xzf %{SOURCE2} -C tzcode%{version}
+%setup -qc
+mv tzdata/* .
+%{__tar} xzf %{SOURCE1} -C tzdata
+mkdir tzcode
+%{__tar} xzf %{SOURCE2} -C tzcode
 %patch0 -p1
 
 sed -e "
@@ -71,7 +71,7 @@ s|@datadir@|%{_datadir}|
 s|@install_root@|$RPM_BUILD_ROOT|
 " Makeconfig.in > Makeconfig
 
-grep -v tz-art.htm tzcode%{version}/tz-link.htm > tzcode%{version}/tz-link.html
+grep -v tz-art.htm tzcode/tz-link.htm > tzcode/tz-link.html
 
 %build
 %{__make}
@@ -130,7 +130,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc tzcode%{version}/README tzcode%{version}/Theory tzcode%{version}/tz-link.html
+%doc tzcode/README tzcode/Theory tzcode/tz-link.html
 %ghost /etc/localtime
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone

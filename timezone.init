@@ -20,11 +20,7 @@ if [ -n "$ZONE_INFO_SCHEME" -a "$ZONE_INFO_SCHEME" != "posix" ]; then
 	ZONE_FILE="$ZONE_FILE/$ZONE_INFO_SCHEME"
 fi
 
-if [ -n "$ZONE_INFO_AREA" ]; then
-	ZONE_FILE="$ZONE_FILE/$ZONE_INFO_AREA"
-fi
-
-ZONE_FILE="$ZONE_FILE/$TIME_ZONE"
+ZONE_FILE="$ZONE_FILE/$TIMEZONE"
 
 [ -L /etc/localtime ] && [ "$(resolvesymlink /etc/localtime)" = "$ZONE_FILE" ] && exit 0
 
@@ -33,11 +29,8 @@ start() {
 		if [ -f "$ZONE_FILE" ]; then
 			rm -f /etc/localtime
 
-			if [ -n "$ZONE_INFO_AREA" ]; then
-				MESSAGE="`nls 'Setting time zone information (%s, %s)' "$ZONE_INFO_AREA" "$TIME_ZONE"`"
-			else
-				MESSAGE="`nls 'Setting time zone information (%s)' "$TIME_ZONE"`"
-			fi
+			MESSAGE="`nls 'Setting time zone information (%s)' "$TIMEZONE"`"
+
 			run_cmd "$MESSAGE" cp -af $ZONE_FILE /etc/localtime
 			RETVAL=$?
 			restorecon /etc/localtime >/dev/null 2>&1
@@ -74,11 +67,7 @@ case "$1" in
 	disable
 	;;
   status)
-	if [ -n "$ZONE_INFO_AREA" ]; then
-		nls 'Time zone configured to (%s, %s)' "$ZONE_INFO_AREA" "$TIME_ZONE"
-	else
-		nls 'Time zone configured to (%s)' "$TIME_ZONE"
-	fi
+	nls 'Time zone configured to (%s)' "$TIMEZONE"
 	;;
   *)
 	msg_usage "$0 {start|stop|restart|try-restart|reload|force-reload|disable|status}"

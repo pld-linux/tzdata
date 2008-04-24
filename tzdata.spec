@@ -8,7 +8,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	3.1
+Release:	4
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
@@ -127,6 +127,21 @@ fi
 
 %triggerpostun -- rc-scripts < 0.4.1.4
 /sbin/chkconfig --add timezone
+
+%triggerpostun -- tzdata < 2008b-4
+if ! grep -q '^TIMEZONE=' /etc/sysconfig/timezone; then
+	. /etc/sysconfig/timezone
+
+	if [ -z $ZONE_INFO_AREA ]; then
+		TIMEZONE=$TIME_ZONE
+	else
+		TIMEZONE=$ZONE_INFO_AREA/$TIME_ZONE
+	fi
+
+	echo "TIMEZONE=\"$TIMEZONE\"" >> /etc/sysconfig/timezone
+
+	%service timezone restart
+fi
 
 %files
 %defattr(644,root,root,755)

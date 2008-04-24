@@ -29,7 +29,7 @@ start() {
 		if [ -f "$ZONE_FILE" ]; then
 			rm -f /etc/localtime
 
-			MESSAGE="`nls 'Setting time zone information (%s)' "$TIMEZONE"`"
+			MESSAGE=$(nls 'Setting time zone information (%s)' "$TIMEZONE")
 
 			run_cmd "$MESSAGE" cp -af $ZONE_FILE /etc/localtime
 			RETVAL=$?

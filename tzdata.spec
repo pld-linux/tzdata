@@ -8,7 +8,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	4
+Release:	5
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2

@@ -2,8 +2,8 @@
 # Conditional build
 %bcond_without	tests			# make check
 #
-%define	tzdata_ver	2008c
-%define	tzcode_ver	2008a
+%define		tzcode_ver	2008a
+%define		tzdata_ver	2008c
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata

@@ -2,7 +2,7 @@
 # Conditional build
 %bcond_without	tests			# make check
 #
-%define		tzcode_ver	2008a
+%define		tzcode_ver	2008e
 %define		tzdata_ver	2008e
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
@@ -16,7 +16,7 @@ Source0:	%{name}-base-0.tar.bz2
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
 # Source1-md5:	3b4578110a3d193ed9a00d61f27aba28
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	4a04c12a8ec50b0a8cfc9ebce96b07d3
+# Source2-md5:	12ec2d85324ddcba39db1471a03f486b
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Patch0:		%{name}-test-update.patch

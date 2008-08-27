@@ -26,7 +26,6 @@ BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	/sbin/chkconfig
-Requires(post,preun):	rc-scripts
 Requires:	rc-scripts >= 0.4.1.4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)

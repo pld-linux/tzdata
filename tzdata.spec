@@ -8,7 +8,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	2
+Release:	3
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
@@ -26,6 +26,7 @@ BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	/sbin/chkconfig
+Requires(post,preun):	rc-scripts
 Requires:	rc-scripts >= 0.4.1.4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)

@@ -3,18 +3,18 @@
 %bcond_without	tests			# make check
 #
 %define		tzcode_ver	2008e
-%define		tzdata_ver	2008e
+%define		tzdata_ver	2008f
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	3
+Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	3b4578110a3d193ed9a00d61f27aba28
+# Source1-md5:	aa3b077a7b786d46c131303b1d75deee
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
 # Source2-md5:	12ec2d85324ddcba39db1471a03f486b
 Source3:	timezone.init

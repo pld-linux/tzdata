@@ -58,10 +58,15 @@ Nie potrzebujesz tego. Szczegóły pod:
 <http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
 %package devel
-Summary: tzfile header
-Group:	Development/Libraries
+Summary:	tzfile header
+Summary(pl.UTF-8):	nagłówek tzfile
+Group:		Development/Libraries
 
 %description devel
+Header file for timezone database.
+
+%description devel -l pl.UTF-8
+Plik nagłówkowy bazy danych stref czasowych.
 
 %prep
 %setup -qc
@@ -86,6 +91,7 @@ grep -v tz-art.htm tzcode/tz-link.htm > tzcode/tz-link.html
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
 install -d $RPM_BUILD_ROOT%{_includedir}
+install -d $RPM_BUILD_ROOT%{_mandir}/man5
 
 %{__make} install
 
@@ -107,7 +113,9 @@ ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 
 > $RPM_BUILD_ROOT/etc/localtime
 
+# header file
 install tzcode/tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
+install tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
@@ -167,4 +175,7 @@ fi
 %{_datadir}/zoneinfo/right
 
 %files devel
+%defattr(644,root,root,755)
+%doc tzcode/tzfile.5.txt
 %{_includedir}/tzfile.h
+%{_mandir}/man5/tzfile.5*

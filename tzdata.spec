@@ -57,6 +57,12 @@ No lo necesita. Encontrará los detalles en:
 Nie potrzebujesz tego. Szczegóły pod:
 <http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
+%package devel
+Summary: tzfile header
+Group:	Development/Libraries
+
+%description devel
+
 %prep
 %setup -qc
 mv tzdata/* .
@@ -79,6 +85,7 @@ grep -v tz-art.htm tzcode/tz-link.htm > tzcode/tz-link.html
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
+install -d $RPM_BUILD_ROOT%{_includedir}
 
 %{__make} install
 
@@ -99,6 +106,8 @@ ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 
 > $RPM_BUILD_ROOT/etc/localtime
+
+install tzcode/tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
 
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
@@ -156,3 +165,6 @@ fi
 %files zoneinfo_right
 %defattr(644,root,root,755)
 %{_datadir}/zoneinfo/right
+
+%files devel
+%{_includedir}/tzfile.h

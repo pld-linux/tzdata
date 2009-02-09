@@ -58,8 +58,8 @@ Nie potrzebujesz tego. Szczegóły pod:
 <http://sources.redhat.com/ml/libc-alpha/2000-12/msg00068.html>.
 
 %package devel
-Summary:	tzfile header
-Summary(pl.UTF-8):	nagłówek tzfile
+Summary:	tzfile header file
+Summary(pl.UTF-8):	Plik nagłówkowy tzfile
 Group:		Development/Libraries
 
 %description devel

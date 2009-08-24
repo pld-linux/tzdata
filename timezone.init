@@ -25,19 +25,21 @@ ZONE_FILE="$ZONE_FILE/$TIMEZONE"
 [ -L /etc/localtime ] && [ "$(resolvesymlink /etc/localtime)" = "$ZONE_FILE" ] && exit 0
 
 start() {
-	if [ ! -f /var/lock/subsys/timezone ]; then
-		if [ -f "$ZONE_FILE" ]; then
-			rm -f /etc/localtime
-
-			MESSAGE=$(nls 'Setting time zone information (%s)' "$TIMEZONE")
-
-			run_cmd "$MESSAGE" cp -af $ZONE_FILE /etc/localtime
-			RETVAL=$?
-			restorecon /etc/localtime >/dev/null 2>&1
-		fi
-
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/timezone
+	if [ -f /var/lock/subsys/timezone ]; then
+		return
 	fi
+
+	if [ -f "$ZONE_FILE" ]; then
+		rm -f /etc/localtime
+
+		MESSAGE=$(nls 'Setting time zone information (%s)' "$TIMEZONE")
+
+		run_cmd "$MESSAGE" cp -af $ZONE_FILE /etc/localtime
+		RETVAL=$?
+		restorecon /etc/localtime >/dev/null 2>&1
+	fi
+
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/timezone
 }
 
 stop() {

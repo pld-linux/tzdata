@@ -3,7 +3,7 @@
 %bcond_without	tests			# make check
 #
 %define		tzcode_ver	2009k
-%define		tzdata_ver	2009l
+%define		tzdata_ver	2009n
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -14,7 +14,7 @@ Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	f95270458c97894b4b62613eb324b33c
+# Source1-md5:	c572bfb704e2da88b9e48517cfa3578f
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
 # Source2-md5:	d181116286661375966a350e3e358cfa
 Source3:	timezone.init

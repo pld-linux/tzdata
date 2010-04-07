@@ -80,7 +80,7 @@ sed -e "
 s|@objpfx@|`pwd`/obj/|
 s|@datadir@|%{_datadir}|
 s|@install_root@|$RPM_BUILD_ROOT|
-" Makeconfig.in > Makeconfig
+" 'Makeconfig.in' > Makeconfig
 
 grep -v tz-art.htm tzcode/tz-link.htm > tzcode/tz-link.html
 
@@ -114,10 +114,10 @@ ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 > $RPM_BUILD_ROOT/etc/localtime
 
 # header file
-install tzcode/tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
-install tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
+cp -a tzcode/tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
+cp -a tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
+install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
 
 %clean

@@ -21,8 +21,6 @@ Source3:	timezone.init
 Source4:	timezone.sysconfig
 Patch0:		%{name}-test-update.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
-BuildRequires:	gawk
-BuildRequires:	perl-base
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	/sbin/chkconfig

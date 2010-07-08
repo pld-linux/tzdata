@@ -43,9 +43,7 @@ start() {
 }
 
 stop() {
-	if [ -f /var/lock/subsys/timezone ]; then
-		rm -f /var/lock/subsys/timezone
-	fi
+	rm -f /var/lock/subsys/timezone >/dev/null 2>&1
 }
 
 disable() {

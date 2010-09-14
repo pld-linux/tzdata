@@ -1,7 +1,8 @@
 #
 # Conditional build
-%bcond_without	tests			# make check
-#
+%bcond_without	tests		# make check
+%bcond_with		java		# build java subpackage
+
 %define		tzcode_ver	2010j
 %define		tzdata_ver	2010j
 Summary:	Timezone data
@@ -19,7 +20,10 @@ Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
 # Source2-md5:	5ba8345720296d3a659b349b2052d139
 Source3:	timezone.init
 Source4:	timezone.sysconfig
+Source5:	javazic.tar.gz
+# Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
 Patch0:		%{name}-test-update.patch
+Patch1:		javazic-fixup.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
@@ -35,6 +39,13 @@ around the world.
 %description -l pl.UTF-8
 Ten pakiet zawiera pliki z danymi na temat reguł stref czasowych na
 całym świecie.
+
+%package java
+Summary:	Timezone data for Java
+Group:		Base
+
+%description java
+This package contains timezone information for use by Java runtimes.
 
 %package zoneinfo_right
 Summary:	Non-POSIX (real) time zones
@@ -82,8 +93,40 @@ s|@install_root@|$RPM_BUILD_ROOT|
 
 grep -v tz-art.htm tzcode/tz-link.htm > tzcode/tz-link.html
 
+%if %{with java}
+install -d javazic
+tar zxf %{SOURCE5} -C javazic
+cd javazic
+%patch1
+
+# Hack alert! sun.tools may be defined and installed in the
+# VM. In order to guarantee that we are using IcedTea/OpenJDK
+# for creating the zoneinfo files, rebase all the packages
+# from "sun." to "rht.". Unfortunately, gcj does not support
+# any of the -Xclasspath options, so we must go this route
+# to ensure the greatest compatibility.
+# XXX: do we want 'pld' instead of 'rht'?
+mv sun rht
+find . -type f -name '*.java' -print0 \
+	| xargs -0 -- sed -i -e 's:sun\.tools\.:rht.tools.:g' \
+						 -e 's:sun\.util\.:rht.util.:g'
+cd -
+%endif
+
 %build
 %{__make}
+
+%if %{with java}
+cd javazic
+%javac -source 1.5 -target 1.5 -classpath . $(find -name '*.java')
+cd ../tzdata
+%java -classpath ../javazic/ rht.tools.javazic.Main -V %{version} \
+	-d ../zoneinfo/java \
+	africa antarctica asia australasia europe northamerica pacificnew \
+	southamerica backward etcetera solar87 solar88 solar89 systemv \
+	../javazic/tzdata_jdk/gmt ../javazic/tzdata_jdk/jdk11_backward
+cd ..
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -101,7 +144,6 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man5
 : ====================TESTING END=====================
 %endif
 
-
 # glibc.spec didn't keep it. so won't here either.
 rm -rf $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posix
 # behave more like glibc.spec
@@ -117,6 +159,10 @@ cp -a tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
 install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
+
+%if %{with java}
+cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -167,6 +213,12 @@ fi
 
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right
+
+%if %{with java}
+%files java
+%defattr(644,root,root,755)
+%{_datadir}/javazi
+%endif
 
 %files zoneinfo_right
 %defattr(644,root,root,755)

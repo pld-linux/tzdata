@@ -25,7 +25,11 @@ Source5:	javazic.tar.gz
 Patch0:		%{name}-test-update.patch
 Patch1:		javazic-fixup.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
-BuildRequires:	rpmbuild(macros) >= 1.228
+BuildRequires:	rpmbuild(macros) >= 1.300
+%if %{with java}
+BuildRequires:	jpackage-utils
+BuildRequires:	rpm-javaprov
+%endif
 Requires(post,preun):	/sbin/chkconfig
 Requires:	/sbin/chkconfig
 Requires:	rc-scripts >= 0.4.1.4

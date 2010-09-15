@@ -1,7 +1,7 @@
 #
 # Conditional build
 %bcond_without	tests		# make check
-%bcond_with		java		# build java subpackage
+%bcond_with	java		# build java subpackage
 
 %define		tzcode_ver	2010j
 %define		tzdata_ver	2010j
@@ -46,10 +46,15 @@ całym świecie.
 
 %package java
 Summary:	Timezone data for Java
+Summary(pl.UTF-8):	Dane stref czasowych dla Javy
 Group:		Base
 
 %description java
 This package contains timezone information for use by Java runtimes.
+
+%description java -l pl.UTF-8
+Ten pakiet zawiera informacje o strefach czasowych przeznaczone dla
+programów w Javie.
 
 %package zoneinfo_right
 Summary:	Non-POSIX (real) time zones

@@ -150,6 +150,8 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man5
 %{__make} check \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} %{rpmldflags}"
+TZDIR=$(pwd)/obj ./obj/test-tz
+TZDIR=$(pwd)/obj ./obj/tst-timezone
 : ====================TESTING END=====================
 %endif
 

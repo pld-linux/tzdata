@@ -12,8 +12,12 @@ Version:	%{tzdata_ver}
 Release:	0.1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
+# The tzdata-base-0.tar.bz2 is a simple building infrastructure and
+# a test suite. It is occasionally updated from glibc sources, and as
+# such is under LGPL v2+, but none of this ever gets to be part of
+# final zoneinfo files.
 Source0:	%{name}-base-0.tar.bz2
-# Source0-md5:	906a4c98cc5240f416524a256b039c42
+# Source0-md5:	e36d2f742c22f8c8dbf0686ac9769b55
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
 # Source1-md5:	b5eefb4986866895ab84f52220f1dfa6
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
@@ -22,7 +26,6 @@ Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
-Patch0:		%{name}-test-update.patch
 Patch1:		javazic-fixup.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	rpmbuild(macros) >= 1.300
@@ -92,7 +95,6 @@ mv tzdata/* .
 %{__tar} xzf %{SOURCE1} -C tzdata
 mkdir tzcode
 %{__tar} xzf %{SOURCE2} -C tzcode
-%patch0 -p1
 
 sed -e "
 s|@objpfx@|`pwd`/obj/|

@@ -3,21 +3,21 @@
 %bcond_without	tests		# make check
 %bcond_with	java		# build java subpackage
 
-%define		tzcode_ver	2010m
-%define		tzdata_ver	2010m
+%define		tzcode_ver	2010n
+%define		tzdata_ver	2010n
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	1
+Release:	0.1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	906a4c98cc5240f416524a256b039c42
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	9e33cb126c8cb6673f39390d347fb0e2
+# Source1-md5:	b5eefb4986866895ab84f52220f1dfa6
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	dee44c5b5ff70c424f62333b4c6d09a2
+# Source2-md5:	a7a776a5713831993e814fe0c05f9fd5
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz

@@ -141,19 +141,15 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
-install -d $RPM_BUILD_ROOT%{_includedir}
-install -d $RPM_BUILD_ROOT%{_mandir}/man5
-
+install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_includedir}}
 %{__make} install
 
 %if %{with tests}
+# test needs to be ran after "make install", as it uses installed files
 : ====================TESTING=========================
 %{__make} check \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} %{rpmldflags}"
-TZDIR=$(pwd)/obj ./obj/test-tz
-TZDIR=$(pwd)/obj ./obj/tst-timezone
 : ====================TESTING END=====================
 %endif
 

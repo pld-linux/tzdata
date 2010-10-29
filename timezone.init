@@ -26,6 +26,7 @@ ZONE_FILE="$ZONE_FILE/$TIMEZONE"
 
 start() {
 	if [ -f /var/lock/subsys/timezone ]; then
+		msg_already_running timezone
 		return
 	fi
 
@@ -34,9 +35,12 @@ start() {
 
 		MESSAGE=$(nls 'Setting time zone information (%s)' "$TIMEZONE")
 
-		run_cmd "$MESSAGE" cp -af $ZONE_FILE /etc/localtime
+		run_cmd "$MESSAGE" cp -af "$ZONE_FILE" /etc/localtime
 		RETVAL=$?
 		restorecon /etc/localtime >/dev/null 2>&1
+	else
+		show "Missing %s file" "$ZONE_FILE"
+		fail
 	fi
 
 	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/timezone
@@ -57,7 +61,7 @@ case "$1" in
 	start
 	;;
   stop)
-  	stop
+	stop
 	;;
   restart|try-restart|reload|force-reload)
 	stop
@@ -67,7 +71,12 @@ case "$1" in
 	disable
 	;;
   status)
-	nls 'Time zone configured to (%s)' "$TIMEZONE"
+  	if [ -x /usr/bin/diff ]; then
+  		diff -q "$ZONE_FILE" /etc/localtime >/dev/null 2>&1 && \
+		nls 'Time zone is configured to %s' "$TIMEZONE" || \
+		nls 'Current time zone differs from %s!' "$TIMEZONE"
+	else	nls 'Time zone should be set to %s' "$TIMEZONE"
+	fi
 	;;
   *)
 	msg_usage "$0 {start|stop|restart|try-restart|reload|force-reload|disable|status}"

@@ -79,7 +79,9 @@ case "$1" in
 	;;
   status)
 	nls 'Time zone is configured to %s' "$TIMEZONE"
-  	if ! identical "$ZONE_FILE" /etc/localtime; then
+	if [ ! -f "$ZONE_FILE" ]; then
+		nls "Missing %s file" "$ZONE_FILE"
+	elif ! identical "$ZONE_FILE" /etc/localtime; then
 		nls 'Current time zone differs from %s!' "$TIMEZONE"
 	fi
 	;;

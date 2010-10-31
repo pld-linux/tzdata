@@ -3,7 +3,6 @@
 # timezone	Set time zone information.
 # chkconfig:	2345 10 90
 # description:	This script is setting time zone information for your machine.
-# Author:	Pawel Wilk <siefca@pld-linux.org>
 #
 # $Id$
 
@@ -54,6 +53,14 @@ disable() {
 	run_cmd "Unsetting time zone information" rm -f /etc/localtime
 }
 
+# return true if FILE1 and FILE2 are identical
+identical() {
+	local crc1 crc2
+	crc1=$(cksum "$1" | awk '{print $1}')
+	crc2=$(cksum "$2" | awk '{print $1}')
+	[ "$crc1" = "$crc2" ]
+}
+
 RETVAL=0
 # See how we were called.
 case "$1" in
@@ -71,11 +78,9 @@ case "$1" in
 	disable
 	;;
   status)
-  	if [ -x /usr/bin/diff ]; then
-  		diff -q "$ZONE_FILE" /etc/localtime >/dev/null 2>&1 && \
-		nls 'Time zone is configured to %s' "$TIMEZONE" || \
+	nls 'Time zone is configured to %s' "$TIMEZONE"
+  	if ! identical "$ZONE_FILE" /etc/localtime; then
 		nls 'Current time zone differs from %s!' "$TIMEZONE"
-	else	nls 'Time zone should be set to %s' "$TIMEZONE"
 	fi
 	;;
   *)

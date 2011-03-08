@@ -3,8 +3,8 @@
 %bcond_without	tests		# make check
 %bcond_with	java		# build java subpackage
 
-%define		tzcode_ver	2011b
-%define		tzdata_ver	2011b
+%define		tzcode_ver	2011c
+%define		tzdata_ver	2011c
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -19,13 +19,14 @@ Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	e36d2f742c22f8c8dbf0686ac9769b55
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	9eaf3ca354c42a32bd28e623539bf0e0
+# Source1-md5:	1a01b1a3346c1531daab4970d0a2cd14
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	c63a1425f7252aef1fe54a258cdccff8
+# Source2-md5:	35c09d1cd46c1f40985562334521a7e5
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
+Source6:	timezone.upstart
 Patch1:		javazic-fixup.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	rpmbuild(macros) >= 1.300
@@ -169,6 +170,9 @@ cp -a tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
 install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
 
+install -d $RPM_BUILD_ROOT/etc/init
+cp -p %{SOURCE6} $RPM_BUILD_ROOT/etc/init/timezone.conf
+
 %if %{with java}
 cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
 %endif
@@ -219,6 +223,7 @@ fi
 %ghost /etc/localtime
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone
+%config(noreplace) %verify(not md5 mtime size) /etc/init/timezone.conf
 
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right

@@ -1,10 +1,10 @@
 #
 # Conditional build
 %bcond_without	tests		# make check
-%bcond_with	java		# build java subpackage
+%bcond_without	java		# build java subpackage
 
-%define		tzcode_ver	2011d
-%define		tzdata_ver	2011d
+%define		tzcode_ver	2011e
+%define		tzdata_ver	2011e
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -19,9 +19,9 @@ Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	e36d2f742c22f8c8dbf0686ac9769b55
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	03c5793502b7c41985edd73146bf7e36
+# Source1-md5:	044a07072300a0ee72b046e5a9a4ec90
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	95095242ee368e6a7e107f154590ac11
+# Source2-md5:	fbfc05dbf9ebcfe7c4bba18549870173
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -48,15 +48,15 @@ around the world.
 Ten pakiet zawiera pliki z danymi na temat reguł stref czasowych na
 całym świecie.
 
-%package java
+%package -n java-tzdata
 Summary:	Timezone data for Java
 Summary(pl.UTF-8):	Dane stref czasowych dla Javy
 Group:		Base
 
-%description java
+%description -n java-tzdata
 This package contains timezone information for use by Java runtimes.
 
-%description java -l pl.UTF-8
+%description -n java-tzdata -l pl.UTF-8
 Ten pakiet zawiera informacje o strefach czasowych przeznaczone dla
 programów w Javie.
 
@@ -229,7 +229,7 @@ fi
 %exclude %{_datadir}/zoneinfo/right
 
 %if %{with java}
-%files java
+%files -n java-tzdata
 %defattr(644,root,root,755)
 %{_datadir}/javazi
 %endif

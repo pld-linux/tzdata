@@ -3,13 +3,19 @@
 %bcond_without	tests		# make check
 %bcond_without	java		# build java subpackage
 
+%if "%{pld_release}" == "ac"
+%ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
+%undefine	with_java
+%endif
+%endif
+
 %define		tzcode_ver	2011g
 %define		tzdata_ver	2011g
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	1
+Release:	2
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -29,6 +35,7 @@ Source5:	javazic.tar.gz
 Source6:	timezone.upstart
 Patch1:		javazic-fixup.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
+BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.300
 %if %{with java}
 BuildRequires:	jpackage-utils

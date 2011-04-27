@@ -38,6 +38,7 @@ URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.300
 %if %{with java}
+BuildRequires:	jdk
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 %endif

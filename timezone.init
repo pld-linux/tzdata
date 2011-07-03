@@ -40,6 +40,7 @@ start() {
 	else
 		show "Missing %s file" "$ZONE_FILE"
 		fail
+		RETVAL=2
 	fi
 
 	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/timezone

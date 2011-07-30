@@ -11,6 +11,8 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+upstart_controlled --except status disable
+
 . /etc/sysconfig/timezone
 
 ZONE_FILE="$ZONE_INFO_DIR"
@@ -79,7 +81,7 @@ case "$1" in
 	disable
 	;;
   status)
-	nls 'Time zone is configured to %s' "$TIMEZONE"
+	nls 'Timezone is configured to %s' "$TIMEZONE"
 	if [ ! -f "$ZONE_FILE" ]; then
 		nls "Missing %s file" "$ZONE_FILE"
 	elif ! identical "$ZONE_FILE" /etc/localtime; then

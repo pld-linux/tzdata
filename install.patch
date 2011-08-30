@@ -1,0 +1,11 @@
+--- tzdata-2011i/Rules~	2003-07-24 19:52:34.000000000 +0300
++++ tzdata-2011i/Rules	2011-08-30 15:02:18.371907715 +0300
+@@ -10,7 +10,7 @@
+ endef
+ define do-install
+ $(make-target-directory)
+-/usr/bin/install -m 644 $< $@
++/usr/bin/install -p -m 644 $< $@
+ endef
+ install: $(inst_zonedir)/
+ 	$(MAKE) install-data

@@ -9,13 +9,13 @@
 %endif
 %endif
 
-%define		tzcode_ver	2011g
-%define		tzdata_ver	2011h
+%define		tzcode_ver	2011i
+%define		tzdata_ver	2011i
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	2
+Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -25,15 +25,16 @@ Group:		Base
 Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	e36d2f742c22f8c8dbf0686ac9769b55
 Source1:	ftp://elsie.nci.nih.gov/pub/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	546d27b6c1e5e1097bd512651815017f
+# Source1-md5:	c7a86ec34f30f8d6aa77ef94902a3047
 Source2:	ftp://elsie.nci.nih.gov/pub/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	ecb564279b28c5b184421c525d997d6c
+# Source2-md5:	cf7f4335b7c8682899fa2814e711c1b2
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
 Source6:	timezone.upstart
 Patch1:		javazic-fixup.patch
+Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.300
@@ -102,10 +103,11 @@ Plik nagłówkowy bazy danych stref czasowych.
 %setup -qc
 mv tzdata/* .
 %{__tar} xzf %{SOURCE1} -C tzdata
-mkdir tzcode
+install -d tzcode
 %{__tar} xzf %{SOURCE2} -C tzcode
+%patch2 -p1
 
-sed -e "
+%{__sed} -e "
 s|@objpfx@|`pwd`/obj/|
 s|@datadir@|%{_datadir}|
 s|@install_root@|$RPM_BUILD_ROOT|
@@ -172,11 +174,11 @@ ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 > $RPM_BUILD_ROOT/etc/localtime
 
 # header file
-cp -a tzcode/tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
-cp -a tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
+cp -p tzcode/tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
+cp -p tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
 install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
-cp -a %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
+cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
 
 install -d $RPM_BUILD_ROOT/etc/init
 cp -p %{SOURCE6} $RPM_BUILD_ROOT/etc/init/timezone.conf

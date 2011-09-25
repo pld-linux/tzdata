@@ -44,8 +44,7 @@ BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 %endif
 Requires(post,preun):	/sbin/chkconfig
-Requires:	/sbin/chkconfig
-Requires:	rc-scripts >= 0.4.1.4
+Requires:	rc-scripts >= 0.4.3.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

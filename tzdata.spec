@@ -10,7 +10,7 @@
 %endif
 
 %define		tzcode_ver	2011i
-%define		tzdata_ver	2011l
+%define		tzdata_ver	2011m
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -27,7 +27,7 @@ Source0:	%{name}-base-0.tar.bz2
 # ftp://elsie.nci.nih.gov/pub/ has been shut down because of lawsuit
 #Source1Download: http://www.iana.org/time-zones/
 Source1:	http://www.iana.org/time-zones/repository/releases/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	bae1b93673e1aef80186c90dfd493f1c
+# Source1-md5:	6dc4455b62c951dcf367a239ca249e69
 #Source2Download: http://www.iana.org/time-zones/
 Source2:	http://www.iana.org/time-zones/repository/releases/tzcode%{tzcode_ver}.tar.gz
 # Source2-md5:	cf7f4335b7c8682899fa2814e711c1b2

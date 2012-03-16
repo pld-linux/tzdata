@@ -36,6 +36,8 @@ Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
 Source6:	timezone.upstart
+Source7:	timezone.service
+Source8:	timezone.sh
 Patch1:		javazic-fixup.patch
 Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
@@ -154,7 +156,7 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_includedir}}
+install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_includedir},%{systemdunitdir}}
 %{__make} install
 
 %if %{with tests}
@@ -185,6 +187,9 @@ cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
 install -d $RPM_BUILD_ROOT/etc/init
 cp -p %{SOURCE6} $RPM_BUILD_ROOT/etc/init/timezone.conf
 
+install -p %{SOURCE7} $RPM_BUILD_ROOT%{systemdunitdir}/timezone.service
+install -p %{SOURCE8} $RPM_BUILD_ROOT/lib/systemd/pld-timezone
+
 %if %{with java}
 cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
 %endif
@@ -195,6 +200,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add timezone
 %service timezone restart
+%systemd_post timezone.service
 
 %preun
 if [ "$1" = "0" ]; then
@@ -203,6 +209,7 @@ if [ "$1" = "0" ]; then
 	# save for postun
 	cp -f /etc/localtime /etc/localtime.rpmsave
 fi
+%systemd_preun timezone.service
 
 %postun
 if [ "$1" = "0" ]; then
@@ -210,6 +217,7 @@ if [ "$1" = "0" ]; then
 		mv -f /etc/localtime{.rpmsave,}
 	fi
 fi
+%systemd_reload
 
 %triggerpostun -- rc-scripts < 0.4.1.4
 /sbin/chkconfig --add timezone
@@ -229,6 +237,9 @@ if ! grep -q '^TIMEZONE=' /etc/sysconfig/timezone; then
 	%service timezone restart
 fi
 
+%triggerpostun -- tzdata < 2012a-2
+%systemd_trigger timezone.service
+
 %files
 %defattr(644,root,root,755)
 %doc tzcode/README tzcode/Theory tzcode/tz-link.html
@@ -236,6 +247,8 @@ fi
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone
 %config(noreplace) %verify(not md5 mtime size) /etc/init/timezone.conf
+%{systemdunitdir}/timezone.service
+%attr(755,root,root) /lib/systemd/pld-timezone
 
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right

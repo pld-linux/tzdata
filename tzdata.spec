@@ -207,13 +207,14 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del timezone
 
 	# save for postun
-	cp -f /etc/localtime /etc/localtime.rpmsave
+	cp -af /etc/localtime /etc/localtime.rpmsave
 fi
 %systemd_preun timezone.service
 
 %postun
 if [ "$1" = "0" ]; then
 	if [ ! -f /etc/localtime -a -f /etc/localtime.rpmsave ]; then
+		echo >&2 "Preserving /etc/localtime"
 		mv -f /etc/localtime{.rpmsave,}
 	fi
 fi

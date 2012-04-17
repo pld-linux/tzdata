@@ -15,7 +15,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	2
+Release:	3
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -42,14 +42,16 @@ Patch1:		javazic-fixup.patch
 Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	rpm >= 4.4.9-56
-BuildRequires:	rpmbuild(macros) >= 1.300
+BuildRequires:	rpmbuild(macros) >= 1.623
 %if %{with java}
 BuildRequires:	jdk
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 %endif
+Requires(post,preun,postun):	systemd-units >= 38
 Requires:	/sbin/chkconfig
 Requires:	rc-scripts >= 0.4.3.0
+Requires:	systemd-units >= 38
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

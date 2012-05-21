@@ -26,10 +26,10 @@ Source0:	%{name}-base-0.tar.bz2
 # Source0-md5:	e36d2f742c22f8c8dbf0686ac9769b55
 # ftp://elsie.nci.nih.gov/pub/ has been shut down because of lawsuit
 #Source1Download: http://www.iana.org/time-zones/
-Source1:	http://www.iana.org/time-zones/repository/releases/%{name}%{tzdata_ver}.tar.gz
+Source1:	ftp://ftp.iana.org/tz/releases/%{name}%{tzdata_ver}.tar.gz
 # Source1-md5:	cfdc2710bd05c26dbd624441d57028f6
 #Source2Download: http://www.iana.org/time-zones/
-Source2:	http://www.iana.org/time-zones/repository/releases/tzcode%{tzcode_ver}.tar.gz
+Source2:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_ver}.tar.gz
 # Source2-md5:	6137322ffd36e1fd5128885be1c57008
 Source3:	timezone.init
 Source4:	timezone.sysconfig

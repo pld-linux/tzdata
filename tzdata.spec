@@ -110,7 +110,7 @@ Plik nagłówkowy bazy danych stref czasowych.
 mv tzdata/* .
 %{__tar} xzf %{SOURCE1} -C tzdata
 # don't override Makefile from base tar
-%{__rm} tzdata/Makefile
+mv tzdata/Makefile{,.tzdata}
 install -d tzcode
 %{__tar} xzf %{SOURCE2} -C tzcode
 %patch2 -p1

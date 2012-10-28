@@ -9,8 +9,8 @@
 %endif
 %endif
 
-%define		tzcode_ver	2012f
-%define		tzdata_ver	2012f
+%define		tzcode_ver	2012h
+%define		tzdata_ver	2012h
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -27,10 +27,10 @@ Source0:	%{name}-base-0.tar.bz2
 # ftp://elsie.nci.nih.gov/pub/ has been shut down because of lawsuit
 #Source1Download: http://www.iana.org/time-zones/
 Source1:	ftp://ftp.iana.org/tz/releases/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	944ad681a8623336230dcdb306d5c9f6
+# Source1-md5:	b937335e087fb85b7f8e3ce33e69184b
 #Source2Download: http://www.iana.org/time-zones/
 Source2:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	edc0b55c4afbad7249ccacb3503e7f10
+# Source2-md5:	44b3b6c3e50240ac44f16437040a7ba2
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -109,6 +109,8 @@ Plik nagłówkowy bazy danych stref czasowych.
 %setup -qc
 mv tzdata/* .
 %{__tar} xzf %{SOURCE1} -C tzdata
+# don't override Makefile from base tar
+%{__rm} tzdata/Makefile
 install -d tzcode
 %{__tar} xzf %{SOURCE2} -C tzcode
 %patch2 -p1
@@ -171,7 +173,7 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_inclu
 %endif
 
 # glibc.spec didn't keep it. so won't here either.
-rm -rf $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posix
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posix
 # behave more like glibc.spec
 ln -sf %{_sysconfdir}/localtime	$RPM_BUILD_ROOT%{_datadir}/zoneinfo/localtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime

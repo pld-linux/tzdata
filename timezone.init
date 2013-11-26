@@ -58,6 +58,8 @@ disable() {
 # return true if FILE1 and FILE2 are identical
 identical() {
 	local crc1 crc2
+	test -f "$1" || return 1
+	test -f "$2" || return 1
 	crc1=$(cksum "$1" | awk '{print $1}')
 	crc2=$(cksum "$2" | awk '{print $1}')
 	[ "$crc1" = "$crc2" ]
@@ -83,8 +85,10 @@ case "$1" in
 	nls 'Timezone is configured to %s' "$TIMEZONE"
 	if [ ! -f "$ZONE_FILE" ]; then
 		nls "Missing %s file" "$ZONE_FILE"
+		exit 1
 	elif ! identical "$ZONE_FILE" /etc/localtime; then
-		nls 'Current time zone differs from %s!' "$TIMEZONE"
+		nls 'Current time zone differs from %s' "$TIMEZONE"
+		exit 1
 	fi
 	;;
   *)

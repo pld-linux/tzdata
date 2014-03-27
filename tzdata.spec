@@ -9,8 +9,8 @@
 %endif
 %endif
 
-%define		tzcode_ver	2014a
-%define		tzdata_ver	2014a
+%define		tzcode_ver	2014b
+%define		tzdata_ver	2014b
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -27,10 +27,10 @@ Source0:	%{name}-base-0.tar.bz2
 # ftp://elsie.nci.nih.gov/pub/ has been shut down because of lawsuit
 #Source1Download: http://www.iana.org/time-zones/
 Source1:	ftp://ftp.iana.org/tz/releases/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	423a11bcffc10dda578058cf1587d048
+# Source1-md5:	c58d556612396d4ca5a17807a79924e5
 #Source2Download: http://www.iana.org/time-zones/
 Source2:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	77ccbb720f0f2076f12dff6ded70eb98
+# Source2-md5:	7629513a4dbd107b7da946123d498c6b
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz

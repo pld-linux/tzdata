@@ -38,6 +38,7 @@ Source5:	javazic.tar.gz
 Source6:	timezone.upstart
 Source7:	timezone.service
 Source8:	timezone.sh
+Patch0:		%{name}-test-update.patch
 Patch1:		javazic-fixup.patch
 Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
@@ -108,9 +109,12 @@ Plik nagłówkowy bazy danych stref czasowych.
 %prep
 %setup -qc
 mv tzdata/* .
+%patch0 -p1
+
 %{__tar} xzf %{SOURCE1} -C tzdata
 # don't override Makefile from base tar
-mv tzdata/Makefile{,.tzdata}
+%{__mv} tzdata/Makefile{,.tzdata}
+
 install -d tzcode
 %{__tar} xzf %{SOURCE2} -C tzcode
 %patch2 -p1

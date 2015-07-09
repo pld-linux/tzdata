@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if [ -x /usr/bin/timedatectl ] && \
+    [ -z "$ZONE_INFO_DIR" -o "$ZONE_INFO_DIR" = "/usr/share/zoneinfo" ] && \
+    [ -z "$ZONE_INFO_SCHEME" -o "$ZONE_INFO_SCHEME" = "posix" ] ; then
+	exec /usr/bin/timedatectl set-timezone "$TIMEZONE"
+fi
+
 ZONE_FILE="$ZONE_INFO_DIR"
 
 if [ -n "$ZONE_INFO_SCHEME" -a "$ZONE_INFO_SCHEME" != "posix" ]; then

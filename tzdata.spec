@@ -15,7 +15,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	1
+Release:	2
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -35,9 +35,6 @@ Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
-Source6:	timezone.upstart
-Source7:	timezone.service
-Source8:	timezone.sh
 Patch0:		%{name}-test-update.patch
 Patch1:		javazic-fixup.patch
 Patch2:		install.patch
@@ -192,11 +189,7 @@ cp -p tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
 install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
 
-install -d $RPM_BUILD_ROOT/etc/init
-cp -p %{SOURCE6} $RPM_BUILD_ROOT/etc/init/timezone.conf
-
-install -p %{SOURCE7} $RPM_BUILD_ROOT%{systemdunitdir}/timezone.service
-install -p %{SOURCE8} $RPM_BUILD_ROOT/lib/systemd/pld-timezone
+ln -s /dev/null $RPM_BUILD_ROOT%{systemdunitdir}/timezone.service
 
 %if %{with java}
 cp -a zoneinfo/java $RPM_BUILD_ROOT%{_datadir}/javazi
@@ -208,7 +201,6 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add timezone
 %service timezone restart
-%systemd_post timezone.service
 
 %preun
 if [ "$1" = "0" ]; then
@@ -217,7 +209,6 @@ if [ "$1" = "0" ]; then
 	# save for postun
 	cp -af /etc/localtime /etc/localtime.rpmsave
 fi
-%systemd_preun timezone.service
 
 %postun
 if [ "$1" = "0" ]; then
@@ -226,7 +217,6 @@ if [ "$1" = "0" ]; then
 		mv -f /etc/localtime{.rpmsave,}
 	fi
 fi
-%systemd_reload
 
 %triggerpostun -- rc-scripts < 0.4.1.4
 /sbin/chkconfig --add timezone
@@ -246,8 +236,9 @@ if ! grep -q '^TIMEZONE=' /etc/sysconfig/timezone; then
 	%service timezone restart
 fi
 
-%triggerpostun -- tzdata < 2012a-2
-%systemd_trigger timezone.service
+%triggerpostun -- tzdata < 2015f-2
+%systemd_service_disable timezone.service
+%systemd_service_stop timezone.service
 
 %files
 %defattr(644,root,root,755)
@@ -255,9 +246,7 @@ fi
 %ghost /etc/localtime
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone
-%config(noreplace) %verify(not md5 mtime size) /etc/init/timezone.conf
 %{systemdunitdir}/timezone.service
-%attr(755,root,root) /lib/systemd/pld-timezone
 
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right

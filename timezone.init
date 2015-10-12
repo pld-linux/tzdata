@@ -35,7 +35,11 @@ start() {
 
 		MESSAGE=$(nls 'Setting time zone information (%s)' "$TIMEZONE")
 
-		run_cmd "$MESSAGE" cp -af "$ZONE_FILE" /etc/localtime
+		if [ -n "$(awk '$2 == "/usr" { print $2 }' /proc/mounts 2> /dev/null)" ]; then
+			run_cmd "$MESSAGE" cp -af "$ZONE_FILE" /etc/localtime
+		else
+			run_cmd "$MESSAGE" ln -sf "$ZONE_FILE" /etc/localtime
+		fi
 		RETVAL=$?
 		restorecon /etc/localtime >/dev/null 2>&1
 	else

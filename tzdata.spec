@@ -207,7 +207,10 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del timezone
 
 	# save for postun
-	cp -af /etc/localtime /etc/localtime.rpmsave
+	localtime=$(readlink -f /etc/localtime)
+	# cp has no dereference target option, so remove link first
+	test -L /etc/localtime.rpmsave && rm -f /etc/localtime.rpmsave
+	cp -pf $localtime /etc/localtime.rpmsave
 fi
 
 %postun

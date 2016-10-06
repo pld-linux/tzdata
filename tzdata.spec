@@ -73,11 +73,18 @@ This package contains timezone information for use by Java runtimes.
 Ten pakiet zawiera informacje o strefach czasowych przeznaczone dla
 programów w Javie.
 
+%package zoneinfo
+Summary:	Timezone data
+Group:		Base
+
+%description zoneinfo
+Timezone data.
+
 %package zoneinfo_right
 Summary:	Non-POSIX (real) time zones
 Summary(es.UTF-8):	Zonas de tiempo reales (no de POSIX)
 Summary(pl.UTF-8):	Nie-POSIX-owe (prawdziwe) strefy czasowe
-Group:		Libraries
+Group:		Base
 Obsoletes:	glibc-zoneinfo_right
 
 %description zoneinfo_right
@@ -251,14 +258,16 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/timezone
 %{systemdunitdir}/timezone.service
 
-%{_datadir}/zoneinfo
-%exclude %{_datadir}/zoneinfo/right
-
 %if %{with java}
 %files -n java-tzdata
 %defattr(644,root,root,755)
 %{_datadir}/javazi
 %endif
+
+%files zoneinfo
+%defattr(644,root,root,755)
+%{_datadir}/zoneinfo
+%exclude %{_datadir}/zoneinfo/right
 
 %files zoneinfo_right
 %defattr(644,root,root,755)

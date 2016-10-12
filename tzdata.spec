@@ -76,10 +76,14 @@ programów w Javie.
 
 %package zoneinfo
 Summary:	Timezone data
+Summary(pl.UTF-8):	Dane stref czasowych
 Group:		Base
 
 %description zoneinfo
 Timezone data.
+
+%description zoneinfo -l pl.UTF-8
+Dane stref czasowych.
 
 %package zoneinfo_right
 Summary:	Non-POSIX (real) time zones

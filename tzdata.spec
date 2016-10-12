@@ -15,7 +15,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	1
+Release:	2
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -47,6 +47,7 @@ BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 %endif
 Requires(post,preun,postun):	systemd-units >= 38
+Requires:	%{name}-zoneinfo = %{version}-%{release}
 Requires:	/sbin/chkconfig
 Requires:	rc-scripts >= 0.4.3.0
 Requires:	systemd-units >= 38

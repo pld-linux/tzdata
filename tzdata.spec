@@ -9,13 +9,13 @@
 %endif
 %endif
 
-%define		tzcode_ver	2016g
-%define		tzdata_ver	2016g
+%define		tzcode_ver	2016j
+%define		tzdata_ver	2016j
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	2
+Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -27,10 +27,10 @@ Source0:	%{name}-base-0.tar.bz2
 # ftp://elsie.nci.nih.gov/pub/ has been shut down because of lawsuit
 #Source1Download: http://www.iana.org/time-zones/
 Source1:	ftp://ftp.iana.org/tz/releases/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	3c7e97ec8527211104d27cc1d97a23de
+# Source1-md5:	db361d005ac8b30a2d18c5ca38d3e8ab
 #Source2Download: http://www.iana.org/time-zones/
 Source2:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	f89867013676e3cb9544be2df7d36a91
+# Source2-md5:	0684b98eb184fab250b6ca946862078d
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz

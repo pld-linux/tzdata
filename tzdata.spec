@@ -15,7 +15,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	1
+Release:	2
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -262,6 +262,10 @@ fi
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone
 %{systemdunitdir}/timezone.service
+%dir %{_datadir}/zoneinfo
+%{_datadir}/zoneinfo/localtime
+%{_datadir}/zoneinfo/posixrules
+%{_datadir}/zoneinfo/posixtime
 
 %if %{with java}
 %files -n java-tzdata
@@ -273,6 +277,9 @@ fi
 %defattr(644,root,root,755)
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right
+%exclude %{_datadir}/zoneinfo/localtime
+%exclude %{_datadir}/zoneinfo/posixrules
+%exclude %{_datadir}/zoneinfo/posixtime
 
 %files zoneinfo_right
 %defattr(644,root,root,755)

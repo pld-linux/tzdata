@@ -1,11 +1,12 @@
---- tzdata-2014g/src/tst-timezone.c.orig	2006-02-09 14:14:05.000000000 +0100
-+++ tzdata-2014g/src/tst-timezone.c	2014-09-01 16:24:15.469740453 +0200
+--- tzdata-2017c/src/tst-timezone.c.orig	2006-02-09 14:14:05.000000000 +0100
++++ tzdata-2017c/src/tst-timezone.c	2014-09-01 16:24:15.469740453 +0200
 @@ -39,7 +39,7 @@
    { "Europe/Berlin", 1, -3600, { "CET", "CEST" }},
    { "Europe/London", 1, 0, { "GMT", "BST" }},
    { "Universal", 0, 0, {"UTC", "UTC" }},
 -  { "Australia/Melbourne", 1, -36000, { "EST", "EST" }},
+-  { "America/Sao_Paulo", 1, 10800, {"BRT", "BRST" }},
 +  { "Australia/Melbourne", 1, -36000, { "AEST", "AEDT" }},
-   { "America/Sao_Paulo", 1, 10800, {"BRT", "BRST" }},
++  { "America/Sao_Paulo", 1, 10800, {"-03", "-02" }},
    { "America/Chicago", 1, 21600, {"CST", "CDT" }},
    { "America/Indiana/Indianapolis", 1, 18000, {"EST", "EDT" }},

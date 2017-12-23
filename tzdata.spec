@@ -9,13 +9,13 @@
 %endif
 %endif
 
-%define		tzcode_ver	2016j
-%define		tzdata_ver	2016j
+%define		tzcode_ver	2017c
+%define		tzdata_ver	2017c
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	%{tzdata_ver}
-Release:	2
+Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 # The tzdata-base-0.tar.bz2 is a simple building infrastructure and
@@ -27,10 +27,10 @@ Source0:	%{name}-base-0.tar.bz2
 # ftp://elsie.nci.nih.gov/pub/ has been shut down because of lawsuit
 #Source1Download: http://www.iana.org/time-zones/
 Source1:	ftp://ftp.iana.org/tz/releases/%{name}%{tzdata_ver}.tar.gz
-# Source1-md5:	db361d005ac8b30a2d18c5ca38d3e8ab
+# Source1-md5:	1e751e7e08f8b68530674f04619d894d
 #Source2Download: http://www.iana.org/time-zones/
 Source2:	ftp://ftp.iana.org/tz/releases/tzcode%{tzcode_ver}.tar.gz
-# Source2-md5:	0684b98eb184fab250b6ca946862078d
+# Source2-md5:	2fe6986231db5182c61d565021a0cd7b
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -257,7 +257,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc tzcode/README tzcode/Theory tzcode/tz-link.html
+%doc tzcode/README tzcode/tz-link.html
 %ghost /etc/localtime
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone

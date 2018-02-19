@@ -134,7 +134,7 @@ s|@datadir@|%{_datadir}|
 s|@install_root@|$RPM_BUILD_ROOT|
 " 'Makeconfig.in' > Makeconfig
 
-grep -v tz-art.htm tzcode/tz-link.htm > tzcode/tz-link.html
+sed -i -e '/tz-art.html/d' tzcode/tz-link.html
 
 %if %{with java}
 install -d javazic

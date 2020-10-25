@@ -12,13 +12,13 @@
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2020a
+Version:	2020b
 Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
 Source0:	https://www.iana.org/time-zones/repository/releases/tzdb-%{version}.tar.lz
-# Source0-md5:	5cd57477719833a3431fde4d882144cf
+# Source0-md5:	a1662d31b78acc1bc830d6c908cb4ec4
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -140,8 +140,8 @@ cd ..
 
 %java -classpath javazic/ rht.tools.javazic.Main -V %{version} \
 	-d zoneinfo/java \
-	africa antarctica asia australasia europe northamerica pacificnew \
-	southamerica backward etcetera factory systemv \
+	africa antarctica asia australasia europe northamerica \
+	southamerica backward etcetera factory \
 	javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
 %endif
 

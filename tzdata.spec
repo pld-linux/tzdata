@@ -18,12 +18,6 @@ Version:	%{tzdata_ver}
 Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
-# The tzdata-base-0.tar.bz2 is a simple building infrastructure and
-# a test suite. It is occasionally updated from glibc sources, and as
-# such is under LGPL v2+, but none of this ever gets to be part of
-# final zoneinfo files.
-Source0:	%{name}-base-0.tar.bz2
-# Source0-md5:	e36d2f742c22f8c8dbf0686ac9769b55
 # ftp://elsie.nci.nih.gov/pub/ has been shut down because of lawsuit
 #Source1Download: http://www.iana.org/time-zones/
 Source1:	ftp://ftp.iana.org/tz/releases/%{name}%{tzdata_ver}.tar.gz
@@ -35,7 +29,6 @@ Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
-Patch0:		%{name}-test-update.patch
 Patch1:		javazic-fixup.patch
 Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
@@ -116,25 +109,9 @@ Header file for timezone database.
 Plik nagłówkowy bazy danych stref czasowych.
 
 %prep
-%setup -qc
-mv tzdata/* .
-%patch0 -p1
+%setup -qcT -a1 -a2
 
-%{__tar} xzf %{SOURCE1} -C tzdata
-# don't override Makefile from base tar
-%{__mv} tzdata/Makefile{,.tzdata}
-
-install -d tzcode
-%{__tar} xzf %{SOURCE2} -C tzcode
-%patch2 -p1
-
-%{__sed} -e "
-s|@objpfx@|`pwd`/obj/|
-s|@datadir@|%{_datadir}|
-s|@install_root@|$RPM_BUILD_ROOT|
-" 'Makeconfig.in' > Makeconfig
-
-sed -i -e '/tz-art.html/d' tzcode/tz-link.html
+sed -i -e '/tz-art.html/d' tz-link.html
 
 %if %{with java}
 install -d javazic
@@ -157,24 +134,43 @@ cd -
 %endif
 
 %build
-%{__make}
+%{__make} \
+	CFLAGS="%{rpmcflags}" \
+	LDFLAGS="%{rpmldflags}" \
+	cc="%{__cc}"
 
 %if %{with java}
 cd javazic
 %javac -source 1.5 -target 1.5 -classpath . $(find -name '*.java')
-cd ../tzdata
-%java -classpath ../javazic/ rht.tools.javazic.Main -V %{version} \
-	-d ../zoneinfo/java \
+cd ..
+
+%java -classpath javazic/ rht.tools.javazic.Main -V %{version} \
+	-d zoneinfo/java \
 	africa antarctica asia australasia europe northamerica pacificnew \
 	southamerica backward etcetera factory systemv \
-	../javazic/tzdata_jdk/gmt ../javazic/tzdata_jdk/jdk11_backward
-cd ..
+	javazic/tzdata_jdk/gmt javazic/tzdata_jdk/jdk11_backward
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_includedir},%{systemdunitdir}}
-%{__make} install
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
+
+rm $RPM_BUILD_ROOT%{_bindir}/tzselect
+rm $RPM_BUILD_ROOT%{_bindir}/zdump
+rm $RPM_BUILD_ROOT%{_sbindir}/zic
+rm $RPM_BUILD_ROOT%{_mandir}/man3/newctime.3*
+rm $RPM_BUILD_ROOT%{_mandir}/man3/newtzset.3*
+rm $RPM_BUILD_ROOT%{_mandir}/man8/tzselect.8*
+rm $RPM_BUILD_ROOT%{_mandir}/man8/zdump.8*
+rm $RPM_BUILD_ROOT%{_mandir}/man8/zic.8*
+rm $RPM_BUILD_ROOT%{_prefix}/lib/libtz.a
+rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo-posix
+rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo/leapseconds
+rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo/tzdata.zi
+rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo/zone1970.tab
+mv $RPM_BUILD_ROOT%{_datadir}/zoneinfo-leaps $RPM_BUILD_ROOT%{_datadir}/zoneinfo/right
 
 %if %{with tests}
 # test needs to be ran after "make install", as it uses installed files
@@ -185,8 +181,6 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_inclu
 : ====================TESTING END=====================
 %endif
 
-# glibc.spec didn't keep it. so won't here either.
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posix
 # behave more like glibc.spec
 ln -sf %{_sysconfdir}/localtime	$RPM_BUILD_ROOT%{_datadir}/zoneinfo/localtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime
@@ -195,12 +189,11 @@ ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 > $RPM_BUILD_ROOT/etc/localtime
 
 # header file
-cp -p tzcode/tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
-cp -p tzcode/tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
+cp -p tzfile.h $RPM_BUILD_ROOT%{_includedir}/tzfile.h
+cp -p tzfile.5 $RPM_BUILD_ROOT%{_mandir}/man5
 
 install -p %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/timezone
 cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/sysconfig/timezone
-
 ln -s /dev/null $RPM_BUILD_ROOT%{systemdunitdir}/timezone.service
 
 %if %{with java}
@@ -257,7 +250,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc tzcode/README tzcode/tz-link.html
+%doc README tz-link.html
 %ghost /etc/localtime
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone
@@ -286,6 +279,6 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%doc tzcode/tzfile.5.txt
+%doc tzfile.5.txt
 %{_includedir}/tzfile.h
 %{_mandir}/man5/tzfile.5*

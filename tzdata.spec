@@ -16,12 +16,9 @@ Version:	2020a
 Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
-#Source1Download: https://www.iana.org/time-zones
-Source1:	https://www.iana.org/time-zones/repository/releases/tzdata%{version}.tar.gz
-# Source1-md5:	96a985bb8eeab535fb8aa2132296763a
-#Source2Download: https://www.iana.org/time-zones
-Source2:	https://www.iana.org/time-zones/repository/releases/tzcode%{version}.tar.gz
-# Source2-md5:	f87c3477e85a5c4b00df0def6c6a0055
+#Source0Download: https://www.iana.org/time-zones
+Source0:	https://www.iana.org/time-zones/repository/releases/tzdb-%{version}.tar.lz
+# Source0-md5:	5cd57477719833a3431fde4d882144cf
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -106,7 +103,7 @@ Header file for timezone database.
 Plik nagłówkowy bazy danych stref czasowych.
 
 %prep
-%setup -qcT -a1 -a2
+%setup -qn tzdb-%{version}
 
 sed -i -e '/tz-art.html/d' tz-link.html
 

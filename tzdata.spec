@@ -13,7 +13,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2020d
-Release:	1
+Release:	2
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
@@ -23,6 +23,7 @@ Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
+Patch0:		disable-network-tests.patch
 Patch1:		javazic-fixup.patch
 Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
@@ -104,6 +105,7 @@ Plik nagłówkowy bazy danych stref czasowych.
 
 %prep
 %setup -qn tzdb-%{version}
+%patch0 -p1
 
 sed -i -e '/tz-art.html/d' tz-link.html
 

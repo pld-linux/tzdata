@@ -19,7 +19,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2020f
-Release:	1
+Release:	2
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
@@ -193,6 +193,8 @@ ln -sf %{_sysconfdir}/localtime	$RPM_BUILD_ROOT%{_datadir}/zoneinfo/localtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixtime
 ln -sf localtime $RPM_BUILD_ROOT%{_datadir}/zoneinfo/posixrules
 
+# zic>=2020b installs localtime as hardlink to GMT, so remove first not break GMT zone files
+%{__rm} $RPM_BUILD_ROOT/etc/localtime
 > $RPM_BUILD_ROOT/etc/localtime
 
 # header file

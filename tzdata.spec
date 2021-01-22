@@ -1,7 +1,13 @@
 #
 # Conditional build
-%bcond_with	tests		# make check
+%bcond_without	tests		# make check
 %bcond_without	java		# build java subpackage
+
+%ifnarch %{x8664}
+# TODO: add more archs which pass tests
+# tests fail with 32-bit time_t; reenable after transition to 64-bit everywhere
+%undefine	with_tests
+%endif
 
 %if "%{pld_release}" == "ac"
 %ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
@@ -122,7 +128,7 @@ cd javazic
 # any of the -Xclasspath options, so we must go this route
 # to ensure the greatest compatibility.
 # XXX: do we want 'pld' instead of 'rht'?
-mv sun rht
+%{__mv} sun rht
 find . -type f -name '*.java' -print0 \
 	| xargs -0 -- sed -i -e 's:sun\.tools\.:rht.tools.:g' \
 						 -e 's:sun\.util\.:rht.util.:g'
@@ -130,9 +136,12 @@ cd -
 %endif
 
 %build
+# build "fat" zoneinfo files for older parsers (like pytz)
+# which can't parse "slim" 64-bit files
 %{__make} \
 	CFLAGS="%{rpmcflags}" \
 	LDFLAGS="%{rpmldflags}" \
+	ZFLAGS="-b fat" \
 	cc="%{__cc}"
 
 %if %{with java}
@@ -150,23 +159,25 @@ cd ..
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_includedir},%{systemdunitdir}}
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
 
-rm $RPM_BUILD_ROOT%{_bindir}/tzselect
-rm $RPM_BUILD_ROOT%{_bindir}/zdump
-rm $RPM_BUILD_ROOT%{_sbindir}/zic
-rm $RPM_BUILD_ROOT%{_mandir}/man3/newctime.3*
-rm $RPM_BUILD_ROOT%{_mandir}/man3/newtzset.3*
-rm $RPM_BUILD_ROOT%{_mandir}/man8/tzselect.8*
-rm $RPM_BUILD_ROOT%{_mandir}/man8/zdump.8*
-rm $RPM_BUILD_ROOT%{_mandir}/man8/zic.8*
-rm $RPM_BUILD_ROOT%{_prefix}/lib/libtz.a
-rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo-posix
-rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo/leapseconds
-rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo/tzdata.zi
-rm $RPM_BUILD_ROOT%{_datadir}/zoneinfo/zone1970.tab
-mv $RPM_BUILD_ROOT%{_datadir}/zoneinfo-leaps $RPM_BUILD_ROOT%{_datadir}/zoneinfo/right
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	ZFLAGS="-b fat"
+
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/tzselect
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/zdump
+%{__rm} $RPM_BUILD_ROOT%{_sbindir}/zic
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man3/newctime.3*
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man3/newtzset.3*
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man8/tzselect.8*
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man8/zdump.8*
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man8/zic.8*
+%{__rm} $RPM_BUILD_ROOT%{_prefix}/lib/libtz.a
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo-posix
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/leapseconds
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/tzdata.zi
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/zone1970.tab
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/zoneinfo-leaps $RPM_BUILD_ROOT%{_datadir}/zoneinfo/right
 
 %if %{with tests}
 # test needs to be ran after "make install", as it uses installed files

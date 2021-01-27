@@ -18,13 +18,13 @@
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2020f
-Release:	2
+Version:	2021a
+Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
 Source0:	https://www.iana.org/time-zones/repository/releases/tzdb-%{version}.tar.lz
-# Source0-md5:	d185bbba5f17dd80f5aa34601ac1def1
+# Source0-md5:	1a5ab08f40850d9d67aca333016c3b4f
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz

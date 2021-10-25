@@ -18,13 +18,13 @@
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2021a
+Version:	2021e
 Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
 Source0:	https://www.iana.org/time-zones/repository/releases/tzdb-%{version}.tar.lz
-# Source0-md5:	1a5ab08f40850d9d67aca333016c3b4f
+# Source0-md5:	bfd660014a16d652ebc914d88b696efc
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -33,6 +33,7 @@ Patch0:		disable-network-tests.patch
 Patch1:		javazic-fixup.patch
 Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
+BuildRequires:	lzip
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.623
 %if %{with java}
@@ -117,7 +118,7 @@ sed -i -e '/tz-art.html/d' tz-link.html
 
 %if %{with java}
 install -d javazic
-tar zxf %{SOURCE5} -C javazic
+tar zxf %{SOURCE5} -C javazic --no-same-owner
 cd javazic
 %patch1
 

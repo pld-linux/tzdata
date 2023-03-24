@@ -151,7 +151,7 @@ cd -
 
 %if %{with java}
 cd javazic
-%javac -source 1.6 -target 1.6 -classpath . $(find -name '*.java')
+%javac -source 1.7 -target 1.7 -classpath . $(find -name '*.java')
 cd ..
 
 %java -classpath javazic/ rht.tools.javazic.Main -V %{version} \

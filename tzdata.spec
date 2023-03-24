@@ -15,6 +15,10 @@
 %endif
 %endif
 
+%if %{with java}
+%{?use_default_jdk}
+%endif
+
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
@@ -37,7 +41,7 @@ BuildRequires:	lzip
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.623
 %if %{with java}
-BuildRequires:	jdk
+%{?use_jdk:%buildrequires_jdk}%{!?use_jdk:BuildRequires:	jdk}
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 %endif

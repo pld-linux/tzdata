@@ -39,7 +39,7 @@ Patch2:		install.patch
 URL:		http://www.twinsun.com/tz/tz-link.htm
 BuildRequires:	lzip
 BuildRequires:	rpm >= 4.4.9-56
-BuildRequires:	rpmbuild(macros) >= 1.623
+BuildRequires:	rpmbuild(macros) >= 2.021
 %if %{with java}
 %buildrequires_jdk
 BuildRequires:	jpackage-utils

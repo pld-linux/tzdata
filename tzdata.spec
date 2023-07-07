@@ -41,7 +41,7 @@ BuildRequires:	lzip
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 1.623
 %if %{with java}
-%{?use_jdk:%buildrequires_jdk}%{!?use_jdk:BuildRequires:	jdk}
+%buildrequires_jdk
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 %endif

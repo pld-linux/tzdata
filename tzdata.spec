@@ -180,7 +180,6 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_inclu
 %{__rm} $RPM_BUILD_ROOT%{_prefix}/lib/libtz.a
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo-posix
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/leapseconds
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/tzdata.zi
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/zone1970.tab
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/zoneinfo-leaps $RPM_BUILD_ROOT%{_datadir}/zoneinfo/right
 

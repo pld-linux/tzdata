@@ -89,7 +89,7 @@ Summary:	Non-POSIX (real) time zones
 Summary(es.UTF-8):	Zonas de tiempo reales (no de POSIX)
 Summary(pl.UTF-8):	Nie-POSIX-owe (prawdziwe) strefy czasowe
 Group:		Base
-Obsoletes:	glibc-zoneinfo_right
+Obsoletes:	glibc-zoneinfo_right < 6:2.3.6-6
 
 %description zoneinfo_right
 You don't want this. Details at:

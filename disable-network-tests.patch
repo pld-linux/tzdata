@@ -1,11 +1,11 @@
---- tzdb-2020d/Makefile~	2020-10-17 04:52:24.000000000 +0200
-+++ tzdb-2020d/Makefile	2021-01-03 17:37:04.452493870 +0100
-@@ -739,7 +739,7 @@
- check_mild:	check_character_set check_white_space check_links \
- 		  check_name_lengths check_now \
- 		  check_slashed_abbrs check_sorted \
--		  check_tables check_web check_ziguard check_zishrink check_tzs
-+		  check_tables check_ziguard check_zishrink check_tzs
+--- tzdb-2025a/Makefile.orig	2025-03-04 01:10:48.120152031 +0100
++++ tzdb-2025a/Makefile	2025-03-04 01:12:01.174364802 +0100
+@@ -858,7 +858,7 @@
+ 		mv $@.out $@
  
- # True if UTF8_LOCALE does not work;
- # otherwise, false but with LC_ALL set to $(UTF8_LOCALE).
+ check: check_mild back.ck now.ck
+-check_mild: check_web check_zishrink \
++check_mild: check_zishrink \
+   character-set.ck white-space.ck links.ck mainguard.ck \
+   name-lengths.ck slashed-abbrs.ck sorted.ck \
+   tables.ck ziguard.ck tzs.ck

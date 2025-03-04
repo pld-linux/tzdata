@@ -116,7 +116,7 @@ Plik nagłówkowy bazy danych stref czasowych.
 
 %prep
 %setup -qn tzdb-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 sed -i -e '/tz-art.html/d' tz-link.html
 
@@ -124,7 +124,7 @@ sed -i -e '/tz-art.html/d' tz-link.html
 install -d javazic
 tar zxf %{SOURCE5} -C javazic --no-same-owner
 cd javazic
-%patch1
+%patch -P1
 
 # Hack alert! sun.tools may be defined and installed in the
 # VM. In order to guarantee that we are using IcedTea/OpenJDK

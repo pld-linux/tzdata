@@ -242,7 +242,7 @@ fi
 %triggerpostun -- rc-scripts < 0.4.1.4
 /sbin/chkconfig --add timezone
 
-%triggerpostun -- tzdata < 2008b-4
+%triggerpostun -- tzdata < 2015f-2
 if ! grep -q '^TIMEZONE=' /etc/sysconfig/timezone; then
 	. /etc/sysconfig/timezone
 
@@ -256,8 +256,6 @@ if ! grep -q '^TIMEZONE=' /etc/sysconfig/timezone; then
 
 	%service timezone restart
 fi
-
-%triggerpostun -- tzdata < 2015f-2
 %systemd_service_disable timezone.service
 %systemd_service_stop timezone.service
 

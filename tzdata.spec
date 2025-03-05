@@ -50,6 +50,7 @@ Requires:	%{name}-zoneinfo = %{version}-%{release}
 Requires:	/sbin/chkconfig
 Requires:	rc-scripts >= 0.4.3.0
 Requires:	systemd-units >= 38
+Conflicts:	libstdc++ < 6:14.2.0-2
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

@@ -22,13 +22,13 @@
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2025b
+Version:	2025c
 Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
-Source0:	https://www.iana.org/time-zones/repository/releases/tzdb-%{version}.tar.lz
-# Source0-md5:	d5103e1beba20e07c3b01e6fca3c4aab
+Source0:	https://data.iana.org/time-zones/releases/tzdb-%{version}.tar.lz
+# Source0-md5:	3276cd185ecb0676c06eb48bf42dc3f0
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -262,7 +262,6 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README tz-link.html
 %ghost /etc/localtime
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/timezone
 %attr(754,root,root) /etc/rc.d/init.d/timezone
@@ -279,6 +278,7 @@ fi
 
 %files zoneinfo
 %defattr(644,root,root,755)
+%doc LICENSE NEWS README SECURITY tz-link.html
 %{_datadir}/zoneinfo
 %exclude %{_datadir}/zoneinfo/right
 %exclude %{_datadir}/zoneinfo/localtime

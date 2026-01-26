@@ -9,12 +9,6 @@
 %undefine	with_tests
 %endif
 
-%if "%{pld_release}" == "ac"
-%ifnarch i586 i686 pentium3 pentium4 athlon %{x8664}
-%undefine	with_java
-%endif
-%endif
-
 %if %{with java}
 %{?use_default_jdk}
 %endif

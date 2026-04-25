@@ -1,7 +1,8 @@
 #
 # Conditional build
-%bcond_without	tests		# make check
-%bcond_without	java		# build java subpackage
+%bcond_without	tests		# test suite
+%bcond_without	java		# java subpackage
+%bcond_without	right		# additional "right" time data (timestamps counting leap seconds, non-POSIX)
 
 %ifnarch %{x8664} %{ix86} x32
 # TODO: add more archs which pass tests
@@ -16,13 +17,13 @@
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2025c
-Release:	2
+Version:	2026b
+Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
 Source0:	https://data.iana.org/time-zones/releases/tzdb-%{version}.tar.lz
-# Source0-md5:	3276cd185ecb0676c06eb48bf42dc3f0
+# Source0-md5:	c7e792fb61813deee5afe18cf9dceb21
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
@@ -139,10 +140,11 @@ cd -
 # build "fat" zoneinfo files for older parsers (like pytz)
 # which can't parse "slim" 64-bit files
 %{__make} \
+	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags}" \
 	LDFLAGS="%{rpmldflags}" \
-	ZFLAGS="-b fat" \
-	CC="%{__cc}"
+	%{?with_right:REDO="posix_right"} \
+	ZFLAGS="-b fat"
 
 %if %{with java}
 cd javazic
@@ -162,6 +164,7 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_inclu
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
+	%{?with_right:REDO="posix_right"} \
 	ZFLAGS="-b fat"
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/tzselect
@@ -173,10 +176,12 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_inclu
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/man8/zdump.8*
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/man8/zic.8*
 %{__rm} $RPM_BUILD_ROOT%{_prefix}/lib/libtz.a
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo-posix
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/leapseconds
 %{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo/zone1970.tab
+%if %{with right}
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/zoneinfo-posix
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/zoneinfo-leaps $RPM_BUILD_ROOT%{_datadir}/zoneinfo/right
+%endif
 
 %if %{with tests}
 # test needs to be ran after "make install", as it uses installed files
@@ -278,14 +283,18 @@ fi
 %defattr(644,root,root,755)
 %doc LICENSE NEWS README SECURITY tz-link.html
 %{_datadir}/zoneinfo
+%if %{with right}
 %exclude %{_datadir}/zoneinfo/right
+%endif
 %exclude %{_datadir}/zoneinfo/localtime
 %exclude %{_datadir}/zoneinfo/posixrules
 %exclude %{_datadir}/zoneinfo/posixtime
 
+%if %{with right}
 %files zoneinfo_right
 %defattr(644,root,root,755)
 %{_datadir}/zoneinfo/right
+%endif
 
 %files devel
 %defattr(644,root,root,755)

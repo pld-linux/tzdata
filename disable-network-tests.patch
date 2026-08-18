@@ -1,11 +1,11 @@
---- tzdb-2025a/Makefile.orig	2025-03-04 01:10:48.120152031 +0100
-+++ tzdb-2025a/Makefile	2025-03-04 01:12:01.174364802 +0100
-@@ -858,7 +858,7 @@
+--- tzdb-2026c/Makefile.orig
++++ tzdb-2026c/Makefile
+@@ -912,7 +912,7 @@ tzselect:	tzselect.ksh version
  		mv $@.out $@
  
  check: check_mild back.ck now.ck
 -check_mild: check_web check_zishrink \
 +check_mild: check_zishrink \
    character-set.ck white-space.ck links.ck mainguard.ck \
-   name-lengths.ck slashed-abbrs.ck sorted.ck \
+   name-lengths.ck news.ck slashed-abbrs.ck sorted.ck \
    tables.ck ziguard.ck tzs.ck

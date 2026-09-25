@@ -17,21 +17,20 @@
 Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
-Version:	2026c
+Version:	2026d
 Release:	1
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
 Source0:	https://data.iana.org/time-zones/releases/tzdb-%{version}.tar.lz
-# Source0-md5:	b20a51bf4c062509d35f377a99a52507
+# Source0-md5:	3757cc70c10ca495d0b5180435a11e78
 Source3:	timezone.init
 Source4:	timezone.sysconfig
 Source5:	javazic.tar.gz
 # Source5-md5:	6a3392cd5f1594d13c12c1a836ac8d91
 Patch0:		disable-network-tests.patch
 Patch1:		javazic-fixup.patch
-Patch2:		install.patch
-URL:		http://www.twinsun.com/tz/tz-link.htm
+URL:		https://www.iana.org/time-zones
 BuildRequires:	lzip
 BuildRequires:	rpm >= 4.4.9-56
 BuildRequires:	rpmbuild(macros) >= 2.021
@@ -39,6 +38,9 @@ BuildRequires:	rpmbuild(macros) >= 2.021
 %buildrequires_jdk
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
+%endif
+%if %{with tests}
+BuildRequires:	bash
 %endif
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	%{name}-zoneinfo = %{version}-%{release}
@@ -186,13 +188,12 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_inclu
 %if %{with tests}
 # test needs to be ran after "make install", as it uses installed files
 
-# FIXME: now.ck test fails with many "zones ... and ... identical from now on"
-# for now (2025c) run only "check_mild back.ck" instead of full "check"
-
 : ====================TESTING=========================
-%{__make} check_mild back.ck \
+# now.ck computes timestamps past 2^31 in $(( )), mksh arithmetic is 32-bit
+%{__make} check \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} %{rpmldflags}"
+	CFLAGS="%{rpmcflags} %{rpmldflags}" \
+	SHELL=/bin/bash
 : ====================TESTING END=====================
 %endif
 

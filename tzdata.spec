@@ -18,7 +18,7 @@ Summary:	Timezone data
 Summary(pl.UTF-8):	Dane o strefach czasowych
 Name:		tzdata
 Version:	2026f
-Release:	1
+Release:	2
 License:	Public Domain (database), BSD/LGPL v2.1+ (code/test suite)
 Group:		Base
 #Source0Download: https://www.iana.org/time-zones
@@ -190,10 +190,12 @@ install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man5,%{_inclu
 
 : ====================TESTING=========================
 # now.ck computes timestamps past 2^31 in $(( )), mksh arithmetic is 32-bit
+# now.ck is date-dependent: pin its clock to the release time (as upstream advises)
 %{__make} check \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} %{rpmldflags}" \
-	SHELL=/bin/bash
+	SHELL=/bin/bash \
+	CHECK_NOW_TIMESTAMP=$(date -d $(awk '/^Release /{print $4 "T" $5 $6; exit}' NEWS) +%s)
 : ====================TESTING END=====================
 %endif
 
